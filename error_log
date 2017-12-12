@@ -1,0 +1,4 @@
+[04-Feb-2015 12:14:57 UTC] PHP Fatal error:  Call to a member function send_notification() on a non-object in /home/holdenusa/public_html/heresmygps.com/application/controllers/service.php on line 369
+[04-Feb-2015 12:16:02 UTC] PHP Fatal error:  Call to a member function send_notification() on a non-object in /home/holdenusa/public_html/heresmygps.com/application/controllers/service.php on line 369
+[10-Feb-2015 11:48:04 UTC] PHP Fatal error:  Call to undefined method CI_DB_mysql_result::result_row() in /home/holdenusa/public_html/heresmygps.com/application/controllers/service.php on line 588
+[10-Feb-2015 12:05:42 UTC] PHP Parse error:  syntax error, unexpected 'funct' (T_STRING), expecting function (T_FUNCTION) in /home/holdenusa/public_html/heresmygps.com/application/controllers/service.php on line 650
