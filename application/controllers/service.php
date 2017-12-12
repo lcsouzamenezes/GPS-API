@@ -3540,6 +3540,40 @@ class Service extends REST_Controller
             return $this->response(array('status' =>'error', 'request_type' => 'guest_displayname_update', 'msg' => 'No User found', 'error_code' => 1), 404);
         }   
    }
+
+
+   //get user current active group
+    function updateMapID_get() 
+    {
+      $channelID    = $this->get("channel_id");
+      $userID       = $this->get("user_id");
+
+      $userdata  = $this->group_model->check_unique( array("join_key" => $channelID) );
+      
+      if( !count($userdata) ) 
+      {
+        //update groups table
+        $update_data = array(
+            "join_key"    => $channelID,
+            "name"        => $channelID,
+            "description" => $channelID
+          );
+
+        $this->group_model->update( $update_data, array("user_id" => $userID) );
+
+        //update user table
+        $update_data = array('default_id' => $channelID);
+        $this->user_model->update( 'user', $update_data, array("id" => $userID) );
+
+        return $this->response(array('status' =>'success', 'msg' => 'Record updated successfully!.'), 200);
+      }
+      else
+      {
+        return $this->response(array('status' =>'error', 'request_type' => 'guest_displayname_update', 'msg' => 'This Map ID aleardy exists.', 'error_code' => 1), 404);
+      }    
+        
+           
+   }
 }
 ?>
 
