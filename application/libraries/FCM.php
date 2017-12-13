@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class FCM {
     // constructor
     function __construct() {
-        define( 'API_ACCESS_KEY', 'AIzaSyDe8HWB_nz0Rp7EKNepYuhSbSFHqGTb9AI' );
+        define( 'API_ACCESS_KEY', 'AIzaSyCapGarv6tix5SkskMJXz-_343fr7EQngo' );
     }
 
     /**
@@ -15,7 +15,7 @@ class FCM {
 
       //print_r($message); exit;
          $msg = array(
-		         'body' 	=> "test",
+		         'body' 	=> $message,
 		        'title'	=> "Here'sMygps"
              	//'icon'	=> 'myicon',/*Default Icon*/
               	//'sound' => 'mySound'/*Default sound*/
@@ -23,7 +23,7 @@ class FCM {
 
     	$fields = array
 			(
-				'to'		=> 'APA91bE63_lHiZxfV6DD2o6MrYOLdk6ar9k0inB-WG7RW39UfLmFrzKleZ11ZD4qFtG_jX8VJSVC9h9DLqF6-R-9iO4GyaoOI1qoqszu0HKwKoxQnjfN_b4',
+				'to'		=> $registatoin_ids,
 				'notification'	=> $msg
 			);
         $headers = array(
