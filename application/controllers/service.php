@@ -501,6 +501,7 @@ class Service extends REST_Controller
                 if(count($result)) {
                     
                      $this->load->library('email');
+                     $config['protocol'] = 'sendmail';
                      $config['charset']  = 'UTF-8';
                      $config['wordwrap'] = TRUE;
                      $config['mailtype'] = 'html';
