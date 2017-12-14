@@ -3575,6 +3575,63 @@ class Service extends REST_Controller
         
            
    }
+
+
+   function testMail_get() 
+   {
+      $gcm_id = "fSP9dsu2KkU:APA91bF7pw5ETs2XphBTj_cG_iJiNDCjELgwRuApmwalK6tY-VWXqNtNVAS03CyCga9pVpKCbU8R1HB1GglETIoh0BykA2YGvDVIRkNvO2KMZintIBZWiW472LW0pFnW2miXlQKd0XxO";
+      
+      $gcm_data = array('msg' => "HHHH kjsahkjdhksjahdkjashd"); 
+      $data = array('hmg' => $gcm_data);        
+
+      $this->load->library("FCM");
+
+      $this->fcm->send_notification( array($gcm_id), $data );
+
+      die('KKKKKKKKK');
+    }
+
+    function testFCM_get()
+    {
+        $msg = array(
+            'body'  => "Hi sakdskjdkjsahd",
+            'title' => "HMGPS"
+            //'icon'    => 'myicon',/*Default Icon*/
+            //'sound' => 'mySound'/*Default sound*/   
+        );
+
+        $fields = array
+            (
+                'to'        => "fSP9dsu2KkU:APA91bF7pw5ETs2XphBTj_cG_iJiNDCjELgwRuApmwalK6tY-VWXqNtNVAS03CyCga9pVpKCbU8R1HB1GglETIoh0BykA2YGvDVIRkNvO2KMZintIBZWiW472LW0pFnW2miXlQKd0XxO",
+                'notification'  => $msg
+            );
+
+        $headers = array(
+            'Authorization: key='.'AIzaSyCapGarv6tix5SkskMJXz-_343fr7EQngo',
+            'Content-Type: application/json'
+        );
+
+
+        // Open connection
+        $ch = curl_init();
+        curl_setopt( $ch,CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
+        curl_setopt( $ch,CURLOPT_POST, true );
+        curl_setopt( $ch,CURLOPT_HTTPHEADER, $headers );
+        curl_setopt( $ch,CURLOPT_RETURNTRANSFER, true );
+        //curl_setopt($ch, CURLOPT_TIMEOUT, 0);
+        curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER, false );
+        curl_setopt( $ch,CURLOPT_POSTFIELDS, json_encode( $fields ,JSON_UNESCAPED_SLASHES ) );
+        $result = curl_exec($ch );
+       // echo "<pre>";
+          print_r($result); exit;
+        return $result;
+     
+        if ($result === FALSE) {
+            die('Curl failed: ' . curl_error($ch));
+        }
+        curl_close( $ch );
+
+    }
 }
 ?>
 
