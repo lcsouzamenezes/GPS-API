@@ -1294,10 +1294,17 @@ class Service extends REST_Controller
          
          $result = $this->group_model->check_unique(array("join_key" => $join_key));
        
+         $qry = $this->db->last_query();
+         
+
          $ins_data = array();
          $ins_data['is_view'] = $view;
-             
+         
+
+
          $affected_rows = $this->user_groups_model->update($ins_data,array("user_id" => $user_id, 'group_id' => $result['id']));
+
+
         
          if(!empty($affected_rows)) {
             return $this->response(array('status' =>'success', 'request_type' => 'group_view_status','user_id' => $user_id, 'group_id' => $result['id'], 'view' => $ins_data['is_view']), 200);
@@ -3632,6 +3639,52 @@ class Service extends REST_Controller
         curl_close( $ch );
 
     }
+
+    function group_info_get()
+    {
+      
+
+        $channelID    = $this->get("channel_id");
+        $userID       = $this->get("user_id");
+
+        $group_data = $this->db->query("select id from groups where join_key='".$channelID."'")->row_array();
+
+        $user_group = $this->db->query("select ug.* from user_groups ug where ug.user_id='".$userID."' and ug.group_id='".$group_data['id']."'")->row_array();
+
+        
+        if( count($user_group) ) 
+        {
+          return $this->response(array('status' =>'success', 'data' => $user_group), 200);
+        }
+        else
+        {
+          return $this->response(array('status' =>'error', 'msg' => 'This Map ID does not exists.', 'error_code' => 1), 404);
+        }
+    }
+
+    function update_user_info_get()
+    {
+
+        $user_id        = $this->get("user_id");
+        $display_name   = $this->get("display_name");
+        $update_type    = $this->get("update_type");
+        $phonenumber    = $this->get("phone_number");
+
+        $where = array('id' => $user_id);
+
+        $data = array(
+            'display_name' => $display_name, 
+            'updated_type' => $update_type
+          );
+
+        if( $phonenumber ) $data['phonenumber'] = $phonenumber;
+
+        $this->db->where($where);
+        $this->db->update('user', $data );
+
+        return $this->response(array('status' =>'success', 'msg' => 'Updated successfully.'), 200);
+    }
+
 }
 ?>
 
