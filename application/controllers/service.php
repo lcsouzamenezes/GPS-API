@@ -1294,10 +1294,17 @@ class Service extends REST_Controller
          
          $result = $this->group_model->check_unique(array("join_key" => $join_key));
        
+         $qry = $this->db->last_query();
+         
+
          $ins_data = array();
          $ins_data['is_view'] = $view;
-             
+         
+
+
          $affected_rows = $this->user_groups_model->update($ins_data,array("user_id" => $user_id, 'group_id' => $result['id']));
+
+
         
          if(!empty($affected_rows)) {
             return $this->response(array('status' =>'success', 'request_type' => 'group_view_status','user_id' => $user_id, 'group_id' => $result['id'], 'view' => $ins_data['is_view']), 200);
@@ -3575,6 +3582,109 @@ class Service extends REST_Controller
         
            
    }
+
+
+   function testMail_get() 
+   {
+      $gcm_id = "fSP9dsu2KkU:APA91bF7pw5ETs2XphBTj_cG_iJiNDCjELgwRuApmwalK6tY-VWXqNtNVAS03CyCga9pVpKCbU8R1HB1GglETIoh0BykA2YGvDVIRkNvO2KMZintIBZWiW472LW0pFnW2miXlQKd0XxO";
+      
+      $gcm_data = array('msg' => "HHHH kjsahkjdhksjahdkjashd"); 
+      $data = array('hmg' => $gcm_data);        
+
+      $this->load->library("FCM");
+
+      $this->fcm->send_notification( array($gcm_id), $data );
+
+      die('KKKKKKKKK');
+    }
+
+    function testFCM_get()
+    {
+        $msg = array(
+            'body'  => "Hi sakdskjdkjsahd",
+            'title' => "HMGPS"
+            //'icon'    => 'myicon',/*Default Icon*/
+            //'sound' => 'mySound'/*Default sound*/   
+        );
+
+        $fields = array
+            (
+                'to'        => "fSP9dsu2KkU:APA91bF7pw5ETs2XphBTj_cG_iJiNDCjELgwRuApmwalK6tY-VWXqNtNVAS03CyCga9pVpKCbU8R1HB1GglETIoh0BykA2YGvDVIRkNvO2KMZintIBZWiW472LW0pFnW2miXlQKd0XxO",
+                'notification'  => $msg
+            );
+
+        $headers = array(
+            'Authorization: key='.'AIzaSyCapGarv6tix5SkskMJXz-_343fr7EQngo',
+            'Content-Type: application/json'
+        );
+
+
+        // Open connection
+        $ch = curl_init();
+        curl_setopt( $ch,CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
+        curl_setopt( $ch,CURLOPT_POST, true );
+        curl_setopt( $ch,CURLOPT_HTTPHEADER, $headers );
+        curl_setopt( $ch,CURLOPT_RETURNTRANSFER, true );
+        //curl_setopt($ch, CURLOPT_TIMEOUT, 0);
+        curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER, false );
+        curl_setopt( $ch,CURLOPT_POSTFIELDS, json_encode( $fields ,JSON_UNESCAPED_SLASHES ) );
+        $result = curl_exec($ch );
+       // echo "<pre>";
+          print_r($result); exit;
+        return $result;
+     
+        if ($result === FALSE) {
+            die('Curl failed: ' . curl_error($ch));
+        }
+        curl_close( $ch );
+
+    }
+
+    function group_info_get()
+    {
+      
+
+        $channelID    = $this->get("channel_id");
+        $userID       = $this->get("user_id");
+
+        $group_data = $this->db->query("select id from groups where join_key='".$channelID."'")->row_array();
+
+        $user_group = $this->db->query("select ug.* from user_groups ug where ug.user_id='".$userID."' and ug.group_id='".$group_data['id']."'")->row_array();
+
+        
+        if( count($user_group) ) 
+        {
+          return $this->response(array('status' =>'success', 'data' => $user_group), 200);
+        }
+        else
+        {
+          return $this->response(array('status' =>'error', 'msg' => 'This Map ID does not exists.', 'error_code' => 1), 404);
+        }
+    }
+
+    function update_user_info_get()
+    {
+
+        $user_id        = $this->get("user_id");
+        $display_name   = $this->get("display_name");
+        $update_type    = $this->get("update_type");
+        $phonenumber    = $this->get("phone_number");
+
+        $where = array('id' => $user_id);
+
+        $data = array(
+            'display_name' => $display_name, 
+            'updated_type' => $update_type
+          );
+
+        if( $phonenumber ) $data['phonenumber'] = $phonenumber;
+
+        $this->db->where($where);
+        $this->db->update('user', $data );
+
+        return $this->response(array('status' =>'success', 'msg' => 'Updated successfully.'), 200);
+    }
+
 }
 ?>
 
