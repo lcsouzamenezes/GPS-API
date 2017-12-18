@@ -79,7 +79,7 @@ class Group_Model  extends App_model {
         $this->db->from("groups g");
         $this->db->join("user_groups ug", "ug.group_id=g.id");
        // $this->db->where("g.user_id",$user_id);
-        $this->db->where("ug.user_id",$user_id);
+        $this->db->where("g.user_id",$user_id);
         $this->db->order_by("g.id","asc");
         return $this->db->get()->result_array();
     }
