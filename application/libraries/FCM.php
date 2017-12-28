@@ -11,7 +11,7 @@ class FCM {
     /**
      * Sending Push Notification
      */
-    public function doProcess($registatoin_ids = array(), $message = '', $title = '') {
+    public function doProcess($registatoin_ids = array(), $message = '', $title = '', $data = array()) {
 
       
         $msg = array(
@@ -24,7 +24,8 @@ class FCM {
         $fields = array
             (
                 'to'        =>implode(",", $registatoin_ids),
-                'notification'  => $msg
+                'notification'  => $msg,
+                'data' => $data
             );
 
         $headers = array(
@@ -67,7 +68,7 @@ class FCM {
         $title      = "Here's Mygps";
 
 
-        $this->doProcess($registatoin_ids, $message, $title);
+        $this->doProcess($registatoin_ids, $message, $title, $data["hmg"]);
     }
 
 }
