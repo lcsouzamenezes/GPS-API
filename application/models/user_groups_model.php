@@ -61,7 +61,7 @@ class User_Groups_Model extends CI_Model {
         $this->db->from("user_groups ug");
         $this->db->join("groups g","g.id=ug.group_id");
         $this->db->where("ug.user_id",$user_id);
-        $this->db->where("ug.status",1);
+        //$this->db->where("ug.status",1);
         return $this->db->get()->result_array();
     }
     
