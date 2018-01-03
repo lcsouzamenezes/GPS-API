@@ -77,7 +77,7 @@ class Group_Model  extends App_model {
     {
         $this->db->select("g.*,g.id as gid,g.user_id as admin_id,IF(g.user_id=".$user_id.",'own','notown') as grouptype,ug.last_seen_time,ug.is_favourite,g.type",false);
         $this->db->from("groups g");
-        $this->db->join("user_groups ug", "ug.group_id=g.id");
+        $this->db->join("user_groups ug", "ug.group_id=g.id and ug.user_id='".$user_id."'");
        // $this->db->where("g.user_id",$user_id);
         $this->db->where("g.user_id",$user_id);
         $this->db->order_by("g.id","asc");

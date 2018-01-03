@@ -8,13 +8,13 @@ class User_Groups_Model extends CI_Model {
         parent::__construct();
         $this->_table = 'user_groups';
     }
-    
-    function insert($ins_arr)
-    {       
-         $this->db->insert($this->_table, $ins_arr);
+   	
+	function insert($ins_arr)
+	{		
+		 $this->db->insert($this->_table, $ins_arr);
          return $this->db->insert_id(); 
-    }
-    
+	}
+	
     function update($ins_data,$where)
     {
         $this->db->where($where);
@@ -61,8 +61,9 @@ class User_Groups_Model extends CI_Model {
         $this->db->from("user_groups ug");
         $this->db->join("groups g","g.id=ug.group_id");
         $this->db->where("ug.user_id",$user_id);
-        //$this->db->where("ug.status",1);
+       // $this->db->where("ug.status",1);
         return $this->db->get()->result_array();
+		
     }
     
     function get_user_channels($user_id)
@@ -149,7 +150,7 @@ class User_Groups_Model extends CI_Model {
     //get user joined channels
     function get_joined_channels($user_id)
     {
-        $this->db->select("g.*,g.id as gid,g.join_key,g.user_id as admin_id,g.user_id,g.id as id,IF(ug.user_id=".$user_id.",'join_group','notjoin') as jointype,ug.last_seen_time",false);
+        $this->db->select("g.*,g.id as gid,g.join_key,g.user_id as admin_id,g.user_id,g.id as id,IF(ug.user_id=".$user_id.",'join_group','notjoin') as jointype,ug.last_seen_time,ug.is_favourite",false);
         $this->db->from("user_groups ug");
         $this->db->join("groups g","g.id=ug.group_id");
         $this->db->where("ug.user_id",$user_id);

@@ -1203,7 +1203,7 @@ class Service extends REST_Controller
          
         // $result = '';
          $result = $this->group_model->get_group_data(array("g.join_key" => $join_key));
-		
+
          $groups = $this->user_groups_model->get_user_groups($user_id);
         
         $ins_data  = array();
@@ -1214,37 +1214,32 @@ class Service extends REST_Controller
             
             foreach($groups as $gkey => $gvalue) {
                
-               if($gvalue['group_id']==$result['id']){
-                    $admin_id = $result['user_id'];
-                    $type     = $result['type'];
-                    $is_view  =  $gvalue['is_view'];
-               }
-			   $group_id = '';
-			   $lat = ''; $lon = ''; $location_type= ''; $favourite = '';
              //   $ins_data['status']  = ($gvalue['group_id']==$result['id'])?1:0;
                 if($gvalue['group_id'] == $result['id']) {
-                    $ins_data['user_active_time'] = date("Y-m-d H:i:s");
-                    $ins_data['status'] = 1;
-                    $group_id  = $gvalue['group_id'];
-                    $lat       = $gvalue['lat'];
-                    $lon       = $gvalue['lon'];
-                    $location_type= $gvalue['location_type'];
-                    $favourite = $gvalue['is_favourite'];
+                    $favourite   =  $gvalue['is_favourite'];
+                    $is_view     =  $gvalue['is_view'];  
+                    $is_visible  =  $gvalue['is_visible'];
                 }
                 else
                 {
-                    $ins_data['user_leave_time'] = date("Y-m-d H:i:s");
-                    $ins_data['status']  = 0;
-                   // $group_id  = $gvalue['group_id'];
-                   // $lat       = $gvalue['lat'];
-                   // $lon       = $gvalue['lon'];
-                   // $location_type= $gvalue['location_type'];
-                   // $favourite = $gvalue['is_favourite'];
+                    $group_id    = $gvalue['group_id'];
+                    $favourite   = $gvalue['is_favourite'];
+                    $is_visible  = $gvalue['is_visible'];
                 }
-                $this->user_groups_model->update($ins_data,array("user_id" => $user_id, 'group_id' => $group_id));
+
             }
-            
-            return $this->response(array('status' =>'success', 'request_type' => 'current_group_active','join_key' => $join_key,'lat' => $lat,'lon' => $lon,'description' => $result['description'],'location_type' => $location_type,'admin_id'=> $admin_id, 'type' => $type,'group_id' => $group_id,'password' => $result['password'],'password_protect'=> $result['password_protect'],'allow_deny' => $result['allow_deny'], "is_view" => $is_view, "is_visible" => $result['is_visible'],'is_favourite' => $favourite), 200);
+
+            $ins_data['user_leave_time']  = date("Y-m-d H:i:s");
+            $ins_data['status']           = 0;        
+
+         $this->user_groups_model->update($ins_data,array("user_id" => $user_id, 'group_id !=' => $result['id']));
+
+            $ins_data['user_active_time'] = date("Y-m-d H:i:s");
+            $ins_data['status']           = 1;
+
+        $this->user_groups_model->update($ins_data,array("user_id" => $user_id, 'group_id' => $result['id']));
+                  
+            return $this->response(array('status' =>'success','request_type' => 'current_group_active','join_key' => $join_key,'lat' => $result['lat'],'lon' => $result['lon'],'description' => $result['description'],'location_type' => $result['location_type'],'admin_id'=> $result['user_id'], 'type' => $result['type'],'group_id' => $result['id'],'password' => $result['password'],'password_protect'=> $result['password_protect'],'allow_deny' => $result['allow_deny'], "is_view" => $is_view, "is_visible" => $is_visible,'is_favourite' => $favourite), 200);
         } 
         else
         {
@@ -2385,6 +2380,7 @@ class Service extends REST_Controller
         $ins_data['notification_status'] = json_encode($notification_staus);
 
         $this->user_model->insert_notification($ins_data);
+       // echo $this->db->last_query();die;
    }
 
    function user_notifications_get($user_id)
@@ -2652,9 +2648,9 @@ class Service extends REST_Controller
     {
        
        //check for required values
-		if(!$this->get('user_id')){
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		} 
+  		if(!$this->get('user_id')){
+  			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+  		} 
         
         $user_id = $this->get('user_id');
         
@@ -2662,19 +2658,16 @@ class Service extends REST_Controller
         
         //user own channels
         $own_channels = $this->group_model->get_own_channel($user_id);
-       
+
         //user joined channels
         $joined_channels = $this->user_groups_model->get_joined_channels($user_id);
-        
-         
+      
         foreach($joined_channels as $jkey => $jvalue) {
-            if($joined_channels[$jkey]['id'] != $own_channels[$jkey]['id']) {
+            if(!in_array($jvalue['join_key'], array_column($own_channels, 'join_key'))) {
                 array_push($own_channels,$joined_channels[$jkey]);
             }
         } 
-      //  echo "<pre>";
-     //   print_r($own_channels);
-        
+
         if(!count($own_channels)) {
             return $this->response(array('status' => "error",'msg' => 'No Channels Found!','error_code' => 102), 404);
         }
@@ -3330,7 +3323,7 @@ class Service extends REST_Controller
 			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
 		}
 		
-		$user_id   = $this->get('user_id');	
+		    $user_id   = $this->get('user_id');	
         $groups    = $this->group_model->get_own_channel($user_id);
         
         $ids     = '';
@@ -3436,6 +3429,7 @@ class Service extends REST_Controller
         if(count($admin)){
             $gcm_id = $admin['gcm_id'];
             if(!empty($user_id) && !empty($gcm_id)) {  
+
                 $gcm_data = array();
                 $gcm_data['user_status']    = (!empty($user_status))?$user_status:'offline';
                 $gcm_data['join_key']       = $join_key;
@@ -3445,7 +3439,7 @@ class Service extends REST_Controller
                 $gcm_data['default_id']     = (!empty($user['default_id']))?$user['default_id']:$user['phonenumber'];
                 $gcm_data['method']         = 'allow_deny_send_notification';
         
-                $gcm_data['msg']    = ucfirst($user['default_id']).' send join request to your channel '. ucfirst($join_key);
+                $gcm_data['msg']    = ucfirst($user['default_id']).' sent join request to your channel '. ucfirst($join_key);
                 
                 $notification_staus =  $this->fcm->send_notification(array($gcm_id),array("hmg" => $gcm_data),'');
                 
