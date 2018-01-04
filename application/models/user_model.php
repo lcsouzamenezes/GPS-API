@@ -121,6 +121,7 @@ class User_Model  extends App_model {
     {
         $this->db->select("*");
         $this->db->where("user_id",$user_id); 
+        $this->db->where("is_viewed",0);
         $this->db->order_by("id",'desc');       
         $res = $this->db->get("user_notifications")->result_array();
 

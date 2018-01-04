@@ -502,9 +502,11 @@ class Service extends REST_Controller
                     
                       
                      
-                     
-					$config['protocol'] = 'sendmail';
-					$config['mailtype'] = 'html'; 
+            $config['protocol']  = 'sendmail';
+            $config['mailpath'] = '/usr/sbin/sendmail';
+            $config['charset'] = 'iso-8859-1';
+            $config['wordwrap'] = TRUE;
+            $config['mailtype'] = "html";
 
                      
                    $this->load->library('email',$config);
@@ -529,7 +531,7 @@ class Service extends REST_Controller
 					// $this->email->set_header('Content-type', 'text/html'); 
 					 $this->email->clear(TRUE);
 					 $this->email->set_newline("\r\n");		
-                     $this->email->from('punitha@izaaptech.in','Contact');
+                     $this->email->from('punitha.izaap@gmail.com','Contact');
                      $this->email->to($email);
                      $this->email->subject('Forgot Password');
                      $this->email->message($message);
@@ -2403,13 +2405,15 @@ class Service extends REST_Controller
    function update_notification_view_get($msg_id)
    {
         $msg_id  = $this->get('msg_id');
-        
+        $type    = $this->get('type');
 
-        $res = $this->user_model->update('user_notifications',array('is_viewed'=>1),array('id'=>$msg_id));
-        
+        $field   = (!empty($type) && ($type == 'user'))?"user_id":"id";
+        $res     = $this->user_model->update('user_notifications',array('is_viewed'=>1),
+                                         array("$field" => $msg_id));
         return $this->response(array('status' => 'success', 'msg' => 'View status updated'), 200);
-
    }
+   
+   
 
    function update_user_block_status_get()
    {
