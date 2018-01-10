@@ -57,7 +57,7 @@ class User_Groups_Model extends CI_Model {
     
     function get_user_groups($user_id)
     {
-        $this->db->select("ug.*,g.location_type,g.lat,g.lon,g.id as gid");
+        $this->db->select("ug.*,g.location_type,g.lat,g.lon,g.id as gid,ug.is_favourite as favourite");
         $this->db->from("user_groups ug");
         $this->db->join("groups g","g.id=ug.group_id");
         $this->db->where("ug.user_id",$user_id);
@@ -102,7 +102,7 @@ class User_Groups_Model extends CI_Model {
     
     function get_user_active_group($user_id)
     {
-        $this->db->select("groups.id,groups.join_key,groups.type,user_groups.is_view,groups.description,groups.lat,groups.lon,groups.location_type,groups.date_created,groups.password_protect,groups.allow_deny,groups.password");
+        $this->db->select("groups.id,groups.join_key,groups.type,user_groups.is_view,groups.description,groups.lat,groups.lon,groups.location_type,groups.date_created,groups.password_protect,groups.allow_deny,groups.password,user_groups.is_favourite as favourite");
         $this->db->where("user_groups.user_id",$user_id);
         $this->db->where("user_groups.status",1);
         $this->db->join("groups","groups.id=user_groups.group_id");

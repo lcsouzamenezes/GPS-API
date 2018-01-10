@@ -1218,15 +1218,15 @@ class Service extends REST_Controller
                
              //   $ins_data['status']  = ($gvalue['group_id']==$result['id'])?1:0;
                 if($gvalue['group_id'] == $result['id']) {
-                    $favourite   =  $gvalue['is_favourite'];
+                    $favourite   =  $gvalue['favourite'];
                     $is_view     =  $gvalue['is_view'];  
                     $is_visible  =  $gvalue['is_visible'];
                 }
                 else
                 {
                     $group_id    = $gvalue['group_id'];
-                    $favourite   = $gvalue['is_favourite'];
-                    $is_visible  = $gvalue['is_visible'];
+                   // $favourite   = $gvalue['favourite'];
+                  //  $is_visible  = $gvalue['is_visible'];
                 }
 
             }
@@ -1844,7 +1844,7 @@ class Service extends REST_Controller
 
         if($result['user_id'] != $user_id || !count($res)){
             //insert notification to DB
-            $this->insert_notification($result['user_id'],$join_key,$gcm_data);
+            $this->insert_notification($result['user_id'],$join_key,$gcm_data,$user_id);
 
             $this->fcm->send_notification(array($gcm_id),array("hmg" => $gcm_data));
         }
@@ -1915,7 +1915,7 @@ class Service extends REST_Controller
                 $gcm_data['msg']        = $msg;
                 
                 //insert notification to DB
-                $this->insert_notification($result['user_id'],$join_key,$gcm_data);
+                $this->insert_notification($result['user_id'],$join_key,$gcm_data,$user_id);
 
                 $this->fcm->send_notification(array($gcm_id),array("hmg" => $gcm_data)); 
              
@@ -2099,7 +2099,7 @@ class Service extends REST_Controller
                 $gcm_data['msg']        = $msg;
                 
                 //insert notification to DB
-                $this->insert_notification($user_id,$group_name['join_key'],$gcm_data);
+                $this->insert_notification($user_id,$group_name['join_key'],$gcm_data,$user_id);
 
                 $this->fcm->send_notification(array($gcm_id),array("hmg" => $gcm_data));
         }
@@ -2368,13 +2368,14 @@ class Service extends REST_Controller
         return $this->response(array('status' => 'success', 'join_key' => $join_key,'user_id'=> $user_id), 200);
    }
 
-   function insert_notification($user_id='',$join_key='',$message, $notification_staus='')
+   function insert_notification($user_id='',$join_key='',$message, $notification_staus='',$from_id='')
    {
         if(!(int)$user_id)
             return false;
 
         $ins_data = array();
         $ins_data['user_id']     = $user_id;
+        $ins_data['from_id']     = $from_id;
         $ins_data['join_key']    = $join_key;
         $ins_data['message']     = json_encode($message);
         $ins_data['is_viewed']   = 0;
@@ -2388,18 +2389,23 @@ class Service extends REST_Controller
    function user_notifications_get($user_id)
    {
         $user_id  = $this->get('user_id');
+        $join_key = $this->get('join_key');
+        $join_key = (empty($join_key))?"":$this->get('join_key');
 
         if(!(int)$user_id)
             return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
 
+        $res   = $this->user_model->get_user_notifications($user_id,$join_key);
 
-        $res = $this->user_model->get_user_notifications($user_id);
+        $where = (!empty($join_key))?"user_id ='".$user_id."' and join_key='".$join_key."'":"user_id='".$user_id."'";
+
+        $notification_count = $this->db->query("select count(*) as cnt from user_notifications where $where and is_viewed='0'")->row_array();
+          
 
         if(empty($res))
             return $this->response(array('status' => 'error','msg' => 'No messages received!','error_code' => 101), 404);
         else    
-            return $this->response(array('status' => 'success', 'message_list' => $res,'user_id'=> $user_id), 200);
-
+            return $this->response(array('status' => 'success', 'message_list' => $res,'notification_count' => $notification_count['cnt'],'user_id'=> $user_id), 200);
    }
 
    function update_notification_view_get($msg_id)
@@ -3447,7 +3453,7 @@ class Service extends REST_Controller
                 
                 $notification_staus =  $this->fcm->send_notification(array($gcm_id),array("hmg" => $gcm_data),'');
                 
-                $this->insert_notification($result['user_id'],$join_key,$gcm_data,$notification_staus);
+                $this->insert_notification($result['user_id'],$join_key,$gcm_data,$notification_staus,$user_id);
                 //$this->user_notifications_get($user_id);  
             }
            return $this->response(array("status" => 'success','join_key' => $join_key, 'msg' => $gcm_data['msg'] ,'request_type' => 'allow_deny_send_notification'), 200);  
@@ -3480,9 +3486,9 @@ class Service extends REST_Controller
         $user       = $this->user_model->check_unique(array("id" => $result['user_id']));
         
         if(count($admin)){
-            $gcm_id = $admin['gcm_id'];
+           $gcm_id = $admin['gcm_id'];
             $this->allow_to_join_map_get($user_id,$result['id']);
-            if(!empty($user_id) && !empty($gcm_id)) {  
+            if(!empty($user_id)) {  
                // if($cfrom == 'app') {
                 $gcm_data = array();
                 $gcm_data['user_status']    = (!empty($user_status))?$user_status:'offline';
@@ -3493,9 +3499,9 @@ class Service extends REST_Controller
                 $gcm_data['default_id']     = (!empty($admin['default_id']))?$admin['default_id']:$admin['phonenumber'];
                 $gcm_data['method']         = 'join_request';
         
-                $msg         = ucfirst($user['default_id']).'accepted your join request now you can search that group '. ucfirst($join_key);
+                $msg         = ucfirst($user['default_id']).' accepted your join request now you can search that group '. ucfirst($join_key);
                 $gcm_data['msg']     = $msg;
-                $this->insert_notification($user_id,$join_key,$gcm_data);
+                $this->insert_notification($user_id,$join_key,$gcm_data,$user_id);
                 $this->fcm->send_notification(array($gcm_id),array("hmg" => $gcm_data));
               // }    
             }
@@ -3515,7 +3521,7 @@ class Service extends REST_Controller
         
          $user_id   = $this->get("user_id");
          $groups    = $this->user_groups_model->get_user_active_group($user_id);
-       
+       //print_r($groups);
         if(count($groups)) {  
             return $this->response(array('status' =>'success', 'request_type' => 'current_group_active','group' => $groups), 200);
         } 
@@ -3571,14 +3577,31 @@ class Service extends REST_Controller
         $update_data = array('default_id' => $channelID);
         $this->user_model->update( 'user', $update_data, array("id" => $userID) );
 
-        return $this->response(array('status' =>'success', 'msg' => 'Updated Successfully!.'), 200);
+        return $this->response(array('status' =>'success', 'msg' => 'Updated Successfully.'), 200);
       }
       else
       {
         return $this->response(array('status' =>'error', 'request_type' => 'guest_displayname_update', 'msg' => 'Guest Map ID is already exists.', 'error_code' => 1), 404);
-      }    
-        
+      }      
            
+   }
+
+   //check if user sent join request
+   function userJoinRequest_get()
+   {
+        $user_id  = $this->get('user_id');
+        $join_key = $this->get('join_key');
+       
+        if(!(int)$user_id)
+            return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+
+
+        $res = $this->user_model->user_join_request_check($user_id,$join_key);
+       
+        if(empty($res))
+            return $this->response(array('status' => 'error','msg' => 'No messages received!','error_code' => 101), 404);
+        else    
+            return $this->response(array('status' => 'success', 'message_list' => $res,'user_id'=> $user_id), 200);
    }
 
    function testMail_get() 

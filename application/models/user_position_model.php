@@ -135,7 +135,7 @@ class User_Position_Model extends CI_Model {
     function get_trigger_positions($users,$time_limit='')
     {
         $res = array();
-
+       
         foreach($users as $key => $id){
 
             $pos = $this->delete_and_get_position_histories($id,$time_limit);

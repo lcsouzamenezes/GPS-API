@@ -438,3 +438,4 @@ function _prepare_user_details($user_data = array(),$user_id = 0)
     
     return $result;
 }
+

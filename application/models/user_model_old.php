@@ -117,16 +117,11 @@ class User_Model  extends App_model {
         return $this->db->insert_id();
     }
 
-    function get_user_notifications($user_id,$join_key='')
+    function get_user_notifications($user_id)
     {
         $this->db->select("*");
         $this->db->where("user_id",$user_id); 
-        if(!empty($join_key)){
-          $this->db->where("join_key",$join_key);
-        }
-        //$this->db->where("is_viewed",0);
-        $this->db->where("date_created >= ", "(CURDATE() - INTERVAL 5
-                DAY)");
+        $this->db->where("is_viewed",0);
         $this->db->order_by("id",'desc');       
         $res = $this->db->get("user_notifications")->result_array();
 
@@ -177,9 +172,10 @@ class User_Model  extends App_model {
 
     function get_static_maps($user_id,$group_id)
     {
-        $this->db->select("s.id,s.user_id,s.group_id,s.map_name,s.lat,s.lon,s.notes,s.status,s.created_time,s.clue_image,u.email,u.profile_image,u.phonenumber,u.default_id");
+        $this->db->select("s.id,s.user_id,s.group_id,s.map_name,s.lat,s.lon,s.notes,s.status,s.created_time,s.clue_image,u.email,u.profile_image,u.phonenumber,u.default_id,g.join_key");
         $this->db->from("user_static_maps s");
         $this->db->join("user u","u.id=s.user_id");
+         $this->db->join("groups g","g.id=s.group_id");
         if(!empty($user_id)){
           $this->db->where("s.user_id",$user_id);
         } 
@@ -219,18 +215,6 @@ class User_Model  extends App_model {
         $this->db->join("user_groups ug","ug.user_id=u.id");
         $this->db->where(array("ug.group_id" => $group_id, "user_id" => $user_id));
         return $this->db->get()->row_array();
-   }
-
-   function user_join_request_check($user_id, $join_key)
-   {
-        $this->db->select("*");
-        $this->db->where("from_id",$user_id); 
-        if(!empty($join_key)){
-          $this->db->where("join_key",$join_key);
-        }
-        $this->db->where("is_viewed",0);
-        $this->db->order_by("id",'desc');       
-       return $this->db->get("user_notifications")->result_array();
    }
 }
 ?>
