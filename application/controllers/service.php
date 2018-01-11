@@ -515,9 +515,9 @@ class Service extends REST_Controller
                      //$user_id      = base64_encode($result['id']);
                      $user_id = $result['id'];
                      $current_time = strtotime(date("Y-m-d H:i:s"));
-                     $data['fpwd_url'] = site_url()."user/changepassword?id=$user_id&expire_time=$current_time";
-                     $data['username'] = $result['default_id'];
-                     $message = $this->load->view('email_template/send_email_template',$data,TRUE);
+                     $this->data['fpwd_url'] = site_url()."user/changepassword?id=$user_id&expire_time=$current_time";
+                     $this->data['username'] = $result['default_id'];
+                     $message = $this->load->view("email_template/send_email_template",$this->data,true);
                    //   $message  = "<html>";
 		                 // $message .= "<body>";
                    //   $message .= "<p>Hi $username,</p><br/>";
