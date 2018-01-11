@@ -3818,8 +3818,9 @@ class Service extends REST_Controller
       foreach($user_details as $ukey => $uvalue) {
             $gcm_id   = $uvalue['gcm_id'];
             if(!empty($gcm_id)) {  
-              $this->insert_notification($uvalue['id'],$joinKey,$gcm_data,$sender);
-              $this->fcm->send_notification(array($gcm_id),array("hmg" => $gcm_data));  
+              
+              $this->fcm->send_notification(array($gcm_id),array("hmg" => $gcm_data)); 
+              $this->insert_notification($uvalue['id'],$joinKey,$gcm_data,$sender); 
             }
         } 
         return $this->response(array('status' =>'success','request_type' => 'send_message_to_group_members'), 200);
@@ -3843,8 +3844,9 @@ class Service extends REST_Controller
       $gcm_data['method'] = 'send_message_to_user';
       $gcm_id   = $userData['gcm_id'];
       if(!empty($gcm_id)) {  
-        $this->insert_notification($userId,'',$gcm_data,$sender);
+        
         $this->fcm->send_notification(array($gcm_id),array("hmg" => $gcm_data));  
+        $this->insert_notification($userId,'',$gcm_data,$sender);
       }
       
       return $this->response(array('status' =>'success','request_type' => 'send_message_to_user'), 200);  
