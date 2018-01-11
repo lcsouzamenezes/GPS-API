@@ -3820,6 +3820,7 @@ class Service extends REST_Controller
               $this->fcm->send_notification(array($gcm_id),array("hmg" => $gcm_data));  
             }
         } 
+        return $this->response(array('status' =>'success','request_type' => 'send_message_to_group_members'), 200);
     }
 
 
@@ -3844,7 +3845,8 @@ class Service extends REST_Controller
       if(!empty($gcm_id)) {  
         $this->fcm->send_notification(array($gcm_id),array("hmg" => $gcm_data));  
       }
-        
+      
+      return $this->response(array('status' =>'success','request_type' => 'send_message_to_user'), 200);  
     }
    
 }
