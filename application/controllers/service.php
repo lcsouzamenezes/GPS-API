@@ -1752,6 +1752,7 @@ class Service extends REST_Controller
                             $i++; 
                            // sleep(1);                              
                          }
+
                     // foreach($user_details as $ukey => $uvalue) {
                           
                          //  $gcm_id   = $uvalue['gcm_id'];
@@ -1763,7 +1764,7 @@ class Service extends REST_Controller
                        //  if(!empty($user_id) && !empty($gcm_id)) {  
                            // $gcm_data = array();
 //                            $gcm_data['members'] = $user;
-//                            $gcm_data['default_id'] = (isset($userdata['default_id']))?$userdata['default_id']:$uvalue['default_id'];
+//                            $gcm_data['default_id'] = (       isset($userdata['default_id']))?$userdata['default_id']:$uvalue['default_id'];
 //                            $gcm_data['join_key']   = $uvalue['join_key'];
 //                            $gcm_data['time']       = strtotime(date('Y-m-d H:i:s'));
 //                            $gcm_data['type']       = $result['type'];
@@ -3477,8 +3478,8 @@ class Service extends REST_Controller
         
         $cfrom      = (empty($cfrom))?'app':$cfrom;
         
-        $this->load->library("FCM");
-        
+       
+         $this->load->library("FCM");
         $result     = $this->group_model->check_unique(array("join_key" => $join_key));
         $admin      = $this->user_model->check_unique(array("id" => $user_id));
       
@@ -3794,7 +3795,46 @@ class Service extends REST_Controller
         }
     }
    
-    
+    function sendMessageToGroupMembers_get()
+    {
+
+      $joinKey       = $this->get("join_key");
+      $message       = $this->get("message");
+
+      $group_data    = $this->db->query("select * from groups where join_key='".$joinKey."'")->row_array();
+      $user_details  = $this->user_groups_model->get_user_gcm($group_data['id']);
+
+      $this->load->library("FCM");
+      
+      $gcm_data = array()          ;
+      $gcm_data['msg'] = $message;
+      foreach($user_details as $ukey => $uvalue) {
+            $gcm_id   = $uvalue['gcm_id'];
+            if(!empty($gcm_id)) {  
+              $this->fcm->send_notification(array($gcm_id),array("hmg" => $gcm_data));  
+            }
+        } 
+    }
+
+    function sendMessageToUser_get()
+    {
+
+      $userId        = $this->get("user_id");
+      $message       = $this->get("message");
+      
+      $userData      = $this->db->query("select * from user where id='".$userId."'")->row_array();
+      
+      $this->load->library("FCM");
+      
+      $gcm_data = array()          ;
+      $gcm_data['msg'] = $message;
+      
+      $gcm_id   = $userData['gcm_id'];
+      if(!empty($gcm_id)) {  
+        $this->fcm->send_notification(array($gcm_id),array("hmg" => $gcm_data));  
+      }
+        
+    }
    
 }
 ?>
