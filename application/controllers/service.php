@@ -3814,6 +3814,7 @@ class Service extends REST_Controller
       $gcm_data = array()          ;
       $gcm_data['msg']    = $message;
       $gcm_data['sender'] = $senderData['display_name'];
+      $gcm_data['method'] = 'send_message_to_group_members';
       foreach($user_details as $ukey => $uvalue) {
             $gcm_id   = $uvalue['gcm_id'];
             if(!empty($gcm_id)) {  
@@ -3840,7 +3841,7 @@ class Service extends REST_Controller
       $gcm_data = array()          ;
       $gcm_data['msg']    = $message;
       $gcm_data['sender'] = $senderData['display_name'];
-      
+      $gcm_data['method'] = 'send_message_to_user';
       $gcm_id   = $userData['gcm_id'];
       if(!empty($gcm_id)) {  
         $this->fcm->send_notification(array($gcm_id),array("hmg" => $gcm_data));  
