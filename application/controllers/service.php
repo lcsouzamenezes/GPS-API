@@ -3803,14 +3803,17 @@ class Service extends REST_Controller
 
       $joinKey       = $this->get("join_key");
       $message       = $this->get("message");
+      $sender        = $this->get("sender_id");
 
       $group_data    = $this->db->query("select * from groups where join_key='".$joinKey."'")->row_array();
       $user_details  = $this->user_groups_model->get_user_gcm($group_data['id']);
+      $senderData    = $this->db->query("select * from user where id='".$sender."'")->row_array();
 
       $this->load->library("FCM");
       
       $gcm_data = array()          ;
-      $gcm_data['msg'] = $message;
+      $gcm_data['msg']    = $message;
+      $gcm_data['sender'] = $senderData['display_name'];
       foreach($user_details as $ukey => $uvalue) {
             $gcm_id   = $uvalue['gcm_id'];
             if(!empty($gcm_id)) {  
@@ -3819,18 +3822,23 @@ class Service extends REST_Controller
         } 
     }
 
+
     function sendMessageToUser_get()
     {
 
       $userId        = $this->get("user_id");
       $message       = $this->get("message");
+      $sender        = $this->get("sender_id");
       
       $userData      = $this->db->query("select * from user where id='".$userId."'")->row_array();
+
+      $senderData    = $this->db->query("select * from user where id='".$sender."'")->row_array();
       
       $this->load->library("FCM");
       
       $gcm_data = array()          ;
-      $gcm_data['msg'] = $message;
+      $gcm_data['msg']    = $message;
+      $gcm_data['sender'] = $senderData['display_name'];
       
       $gcm_id   = $userData['gcm_id'];
       if(!empty($gcm_id)) {  
