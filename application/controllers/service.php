@@ -515,22 +515,25 @@ class Service extends REST_Controller
                      //$user_id      = base64_encode($result['id']);
                      $user_id = $result['id'];
                      $current_time = strtotime(date("Y-m-d H:i:s"));
-                     $fpwd_url = site_url()."user/changepassword?id=$user_id&expire_time=$current_time";
-                     $username = $result['default_id'];
-                     $message  = "<html>";
-		             $message .= "<body>";
-                     $message .= "<p>Hi $username,</p><br/>";
-                     $message .= "<p>Please click below link to reset your password.</p><br/>";
-                     $message .= "<p><a href='".$fpwd_url."' title='Reset Your Password'>Click Here</a></p><br/><br/>";
-                     $message .= "<p>Thanks,<p>";
-                     $message .= "<p><a href='http://911gps.me'>911gps.me</a></p>"; 
-                     $message .= "</body></html>";
+                     $data['fpwd_url'] = site_url()."user/changepassword?id=$user_id&expire_time=$current_time";
+                     $data['username'] = $result['default_id'];
+                     $message = $this->load->view('email_template',$data,TRUE);
+                   //   $message  = "<html>";
+		                 // $message .= "<body>";
+                   //   $message .= "<p>Hi $username,</p><br/>";
+                   //   $message .= "<p>Please click below link to reset your password.</p><br/>";
+                   //   $message .= "<p><a href='".$fpwd_url."' title='Reset Your Password'>Click Here</a></p><br/><br/>";
+                   //   $message .= "<p>Thanks,<p>";
+                   //   $message .= "<p><a href='http://911gps.me'>911gps.me</a></p>"; 
+                   //   $message .= "</body></html>";
 
 					// $this->email->set_newline("\r\n");	
 					// $this->email->set_header('MIME-Version', '1.0; charset=utf-8'); 
 					// $this->email->set_header('Content-type', 'text/html'); 
-					 $this->email->clear(TRUE);
-					 $this->email->set_newline("\r\n");		
+                  //print_r($message); exit;
+
+					           $this->email->clear(TRUE);
+					           $this->email->set_newline("\r\n");		
                      $this->email->from('punitha.izaap@gmail.com','Contact');
                      $this->email->to($email);
                      $this->email->subject('Forgot Password');
