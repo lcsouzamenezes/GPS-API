@@ -44,7 +44,7 @@ class FCM {
         curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER, false );
         curl_setopt( $ch,CURLOPT_POSTFIELDS, json_encode( $fields ,JSON_UNESCAPED_SLASHES ) );
         $result = curl_exec($ch );
-       // echo "<pre>";
+     //   echo "<pre>";
        //   print_r($result); exit;
         return $result;
      

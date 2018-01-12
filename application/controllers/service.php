@@ -3864,11 +3864,11 @@ class Service extends REST_Controller
       $gcm_data['msg']    = $message;
       $gcm_data['sender'] = $senderData['display_name'];
       $gcm_data['method'] = 'send_message_to_user';
-      $gcm_id   = $userData['gcm_id'];
+      $gcm_id             = $userData['gcm_id'];
       if(!empty($gcm_id)) {  
         
         $this->fcm->send_notification(array($gcm_id),array("hmg" => $gcm_data));  
-        $this->insert_notification($userId,'',$gcm_data,$sender);
+        $this->insert_notification($userId,'test',$gcm_data,$sender);
       }
       
       return $this->response(array('status' =>'success','request_type' => 'send_message_to_user'), 200);  
