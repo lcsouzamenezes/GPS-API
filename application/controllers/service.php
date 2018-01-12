@@ -1639,9 +1639,8 @@ class Service extends REST_Controller
                 $admin_id='';
                 $lastseenup='';
                                     
-                     $position = $this->user_position_model->get_position($result);
-                 //    echo "<pre>";
-                //print_r($position); exit;
+                $position = $this->user_position_model->get_position($result);
+                 
                      $i = 0;
                      if(count($position)) {
                         
