@@ -111,9 +111,12 @@ class User_Groups_Model extends CI_Model {
     
     function get_groups_member($group_id,$user_id)
     {
-        $this->db->select("user_groups.*,user.id as userId,user.default_id,user.gcm_id,user.login_type");
+        $this->db->select("user_groups.*,user.id as userId,user.default_id,user.gcm_id,user.login_type,user_groups.status as user_status");
         $this->db->where("user_groups.group_id",$group_id);
-        $this->db->where("user_groups.user_id !=",$user_id);
+        if(!empty($user_id)){
+            $this->db->where("user_groups.user_id !=",$user_id);
+        }
+
         $this->db->join("user","user.id=user_groups.user_id");
         return $this->db->get($this->_table)->result_array();
     }
