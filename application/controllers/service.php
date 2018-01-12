@@ -502,14 +502,14 @@ class Service extends REST_Controller
                     
                       
                      
-            // $config['protocol']  = 'sendmail';
-            // $config['mailpath'] = '/usr/sbin/sendmail';
-            // $config['charset'] = 'iso-8859-1';
-            // $config['wordwrap'] = TRUE;
-            // $config['mailtype'] = "html";
+            $config['protocol']  = 'sendmail';
+            $config['mailpath'] = '/usr/sbin/sendmail';
+            $config['charset'] = 'iso-8859-1';
+            $config['wordwrap'] = TRUE;
+            $config['mailtype'] = "html";
 
                      
-            //        $this->load->library('email',$config);
+                   $this->load->library('email',$config);
                     
                     // $default      = md5($result['default_id']);
                      //$user_id      = base64_encode($result['id']);
@@ -531,36 +531,14 @@ class Service extends REST_Controller
 					// $this->email->set_header('MIME-Version', '1.0; charset=utf-8'); 
 					// $this->email->set_header('Content-type', 'text/html'); 
                   //print_r($message); exit;
-                    
-                     $this->load->library('email'); 
 
-                     $this->email->set_newline("\r\n");
-
-                     $this->email->set_header('MIME-Version', '1.0; charset=utf-8'); 
-
-                     $this->email->set_header('Content-type', 'text/html');          
-
-                     // $this->email->from('contact@heresmygps.com','Contact'); 
-                     $this->email->from('nirmalkumar@izaaptech.in','Contact');
-
+					           $this->email->clear(TRUE);
+					           $this->email->set_newline("\r\n");		
+                     $this->email->from('allivizhi@izaaptech.in','Allivizhi');
                      $this->email->to($email);
-
-                     $this->email->subject('Forgot Password'); 
-
-                     $this->email->message($message); 
-
+                     $this->email->subject('Forgot Password');
+                     $this->email->message($message);
                      $this->email->send();
-                      
-
-
-
-					           // $this->email->clear(TRUE);
-					           // $this->email->set_newline("\r\n");		
-                //      $this->email->from('contact@heresmygps.com','Contact');
-                //      $this->email->to($email);
-                //      $this->email->subject('Forgot Password');
-                //      $this->email->message($message);
-                //      $this->email->send();
                     
                     return $this->response(array('status' =>'success','request_type' => 'forgot_password','email' => $email,'user_id' => $result['id']), 200);
                 }
@@ -3832,16 +3810,14 @@ class Service extends REST_Controller
 
       $this->load->library("FCM");
       
-      $gcm_data = array();
-      $gcm_data['msg']         = $message;
-      $gcm_data['join_key']    = $joinKey;
-      $gcm_data['sender']      = $senderData['display_name'];
-      $gcm_data['method']      = 'send_message_to_group_members';
-      $gcm_data['user_status'] = "online";
+      $gcm_data = array()          ;
+      $gcm_data['msg']    = $message;
+      $gcm_data['sender'] = $senderData['display_name'];
+      $gcm_data['method'] = 'send_message_to_group_members';
       foreach($user_details as $ukey => $uvalue) {
             $gcm_id   = $uvalue['gcm_id'];
             if(!empty($gcm_id)) {  
-             
+              
               $this->fcm->send_notification(array($gcm_id),array("hmg" => $gcm_data)); 
               $this->insert_notification($uvalue['id'],$joinKey,$gcm_data,$sender); 
             }
@@ -3865,11 +3841,11 @@ class Service extends REST_Controller
       $gcm_data['msg']    = $message;
       $gcm_data['sender'] = $senderData['display_name'];
       $gcm_data['method'] = 'send_message_to_user';
-      $gcm_id             = $userData['gcm_id'];
+      $gcm_id   = $userData['gcm_id'];
       if(!empty($gcm_id)) {  
         
         $this->fcm->send_notification(array($gcm_id),array("hmg" => $gcm_data));  
-        $this->insert_notification($userId,'test',$gcm_data,$sender);
+        $this->insert_notification($userId,'',$gcm_data,$sender);
       }
       
       return $this->response(array('status' =>'success','request_type' => 'send_message_to_user'), 200);  
