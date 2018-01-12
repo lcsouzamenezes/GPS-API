@@ -1537,7 +1537,6 @@ class Service extends REST_Controller
 		} 
                 
         $join_key  = (!empty($join_key))?$join_key:$this->get("join_key");
-       
         $user_id   = (!empty($user_id))?$user_id:$this->get("user_id"); 
         $allowed   = $this->get('allowed');
         $sensor    = $this->get("sensor_speed");
@@ -1545,13 +1544,13 @@ class Service extends REST_Controller
         $type      = (empty($type))?$this->get('type'):$type;
         
         $result    = $this->group_model->check_unique(array("join_key" => $join_key));
-    //  print_r($result); 
-         $plan_data = get_plan_data($result['user_id']);
-         $user_data = $this->user_model->check_unique(array("id" => $user_id));
+    
+        $plan_data = get_plan_data($result['user_id']);
+        $user_data = $this->user_model->check_unique(array("id" => $user_id));
         
          //check if user has already joined or not
-         $user_al  = $this->user_groups_model->check_unique(array("user_id" => $user_id, "group_id" => $result['id']));
-         $uct      = count($user_al);
+        $user_al  = $this->user_groups_model->check_unique(array("user_id" => $user_id, "group_id" => $result['id']));
+        $uct      = count($user_al);
           
         if(empty($result)) {
            return $this->response(array('status' => "error",'msg' => "Group doesn't exists.", 'join_key' => $join_key, 'error_code' => 110), 404); 
