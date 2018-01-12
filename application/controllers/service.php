@@ -3832,14 +3832,16 @@ class Service extends REST_Controller
 
       $this->load->library("FCM");
       
-      $gcm_data = array()          ;
-      $gcm_data['msg']    = $message;
-      $gcm_data['sender'] = $senderData['display_name'];
-      $gcm_data['method'] = 'send_message_to_group_members';
+      $gcm_data = array();
+      $gcm_data['msg']         = $message;
+      $gcm_data['join_key']    = $joinKey;
+      $gcm_data['sender']      = $senderData['display_name'];
+      $gcm_data['method']      = 'send_message_to_group_members';
+      $gcm_data['user_status'] = "online";
       foreach($user_details as $ukey => $uvalue) {
             $gcm_id   = $uvalue['gcm_id'];
             if(!empty($gcm_id)) {  
-              
+             
               $this->fcm->send_notification(array($gcm_id),array("hmg" => $gcm_data)); 
               $this->insert_notification($uvalue['id'],$joinKey,$gcm_data,$sender); 
             }
