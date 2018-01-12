@@ -534,7 +534,7 @@ class Service extends REST_Controller
 
 					           $this->email->clear(TRUE);
 					           $this->email->set_newline("\r\n");		
-                     $this->email->from('allivizhi@izaaptech.in','Allivizhi');
+                     $this->email->from('contact@heresmygps.com','Contact');
                      $this->email->to($email);
                      $this->email->subject('Forgot Password');
                      $this->email->message($message);
