@@ -502,14 +502,14 @@ class Service extends REST_Controller
                     
                       
                      
-            $config['protocol']  = 'sendmail';
-            $config['mailpath'] = '/usr/sbin/sendmail';
-            $config['charset'] = 'iso-8859-1';
-            $config['wordwrap'] = TRUE;
-            $config['mailtype'] = "html";
+            // $config['protocol']  = 'sendmail';
+            // $config['mailpath'] = '/usr/sbin/sendmail';
+            // $config['charset'] = 'iso-8859-1';
+            // $config['wordwrap'] = TRUE;
+            // $config['mailtype'] = "html";
 
                      
-                   $this->load->library('email',$config);
+            //        $this->load->library('email',$config);
                     
                     // $default      = md5($result['default_id']);
                      //$user_id      = base64_encode($result['id']);
@@ -531,14 +531,35 @@ class Service extends REST_Controller
 					// $this->email->set_header('MIME-Version', '1.0; charset=utf-8'); 
 					// $this->email->set_header('Content-type', 'text/html'); 
                   //print_r($message); exit;
+                    
+                     $this->load->library('email'); 
 
-					           $this->email->clear(TRUE);
-					           $this->email->set_newline("\r\n");		
-                     $this->email->from('contact@heresmygps.com','Contact');
+                     $this->email->set_newline("\r\n");
+
+                     $this->email->set_header('MIME-Version', '1.0; charset=utf-8'); 
+
+                     $this->email->set_header('Content-type', 'text/html');          
+
+                     $this->email->from('contact@heresmygps.com','Contact'); 
+
                      $this->email->to($email);
-                     $this->email->subject('Forgot Password');
-                     $this->email->message($message);
+
+                     $this->email->subject('Forgot Password'); 
+
+                     $this->email->message($message); 
+
                      $this->email->send();
+                      
+
+
+
+					           // $this->email->clear(TRUE);
+					           // $this->email->set_newline("\r\n");		
+                //      $this->email->from('contact@heresmygps.com','Contact');
+                //      $this->email->to($email);
+                //      $this->email->subject('Forgot Password');
+                //      $this->email->message($message);
+                //      $this->email->send();
                     
                     return $this->response(array('status' =>'success','request_type' => 'forgot_password','email' => $email,'user_id' => $result['id']), 200);
                 }
