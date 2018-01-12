@@ -540,7 +540,8 @@ class Service extends REST_Controller
 
                      $this->email->set_header('Content-type', 'text/html');          
 
-                     $this->email->from('contact@heresmygps.com','Contact'); 
+                     // $this->email->from('contact@heresmygps.com','Contact'); 
+                     $this->email->from('nirmalizaap@gmail.com','Contact');
 
                      $this->email->to($email);
 
