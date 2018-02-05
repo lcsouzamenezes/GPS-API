@@ -82,7 +82,7 @@ class User_Position_Model extends CI_Model {
         //$this->db->where('login_type',"website");
         //$result = $this->db->get('user')->result_array();
         
-        $result = $this->db->query("select id,plan_id,date_created from user where login_type='website'")->result_array();
+        $result = $this->db->query("select id,plan_id,date_created from user where login_type='guest'")->result_array();
         
         $user_ids = array();
         

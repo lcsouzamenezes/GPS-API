@@ -119,30 +119,37 @@ class User_Model  extends App_model {
 
     function get_user_notifications($user_id,$join_key='')
     {
-        $this->db->select("*");
-        $this->db->where("user_id",$user_id); 
+
+        $where = '';
         if(!empty($join_key)){
-          $this->db->where("join_key",$join_key);
+            $where = "u.join_key='$join_key' AND ";
         }
-        //$this->db->where("is_viewed",0);
-        $this->db->where("date_created >= ", "(CURDATE() - INTERVAL 5
-                DAY)");
-        $this->db->order_by("id",'desc');       
-        $res = $this->db->get("user_notifications")->result_array();
+
+        //get normal notifications
+        $query = "SELECT u.message,u.id,u.join_key,'normal' AS type FROM user_notifications u
+                    WHERE $where 
+                        u.user_id='$user_id' 
+                        AND u.date_created >= (CURDATE() - INTERVAL 5 DAY) 
+                  UNION 
+                  SELECT g.message,g.id,g.join_key,'group' AS type FROM group_message g
+                    WHERE g.join_key='$join_key' 
+                         AND g.date_created >= (CURDATE() - INTERVAL 5 DAY)
+                     ";
+        
+        $res  = $this->db->query($query)->result_array();
 
         $result=array();
         if(count($res)){
             foreach($res as $val){
-                $user  = json_decode($val['message'],TRUE);
-               // print_r($user);
-                $uname = $this->db->query("select id from user where default_id='".$user['default_id']."'")->row_array();
-                
-                $result[] = array('msg_id'=>$val['id'],'user_id' => $uname['id'],'message'=>json_decode($val['message'],TRUE),'is_viewed'=>$val['is_viewed'],'date_created'=>strtotime($val['date_created']));
-                
+                    $user  = json_decode($val['message'],TRUE);
+                    $uname = $this->db->query("select id from user where default_id='".$user['default_id']."'")->row_array();
+                    
+                    $result[] = array('msg_id'=>$val['id'],'user_id' => $uname['id'],'message'=>json_decode($val['message'],TRUE),'is_viewed'=>$val['is_viewed'],'date_created'=>strtotime($val['date_created']));
             }
         }
         return $result;
     }
+
     function delete_old_records()
     {
         $date = date('Y-m-d H:i:s', strtotime('-7 days'));
@@ -232,5 +239,6 @@ class User_Model  extends App_model {
         $this->db->order_by("id",'desc');       
        return $this->db->get("user_notifications")->result_array();
    }
+
 }
 ?>

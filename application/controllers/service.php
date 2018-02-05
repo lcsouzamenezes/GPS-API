@@ -93,8 +93,7 @@ class Service extends REST_Controller
             }  
                        
             //get plan id
-            $plan = $this->plan_model->get_plan_details(array("plan_type"=>$user_plan));
-            
+            $plan    = $this->plan_model->get_plan_details(array("plan_type"=>$user_plan));
             $plan_id = $plan['plan_id'];
             
             $source_image   = "var/www/html/heresmygps.com/assets/uploads/profile/".$profile_image;
@@ -336,8 +335,7 @@ class Service extends REST_Controller
                      $ins_data = array();
 
                      //update device id while login to another device
-                     if($result['device_id']!=$this->get('X-APP-KEY')){
-
+                     if($result['device_id'] != $this->get('X-APP-KEY')){
                         $ins_data['device_id'] = $this->get('X-APP-KEY');
                         $device_id = $this->get('X-APP-KEY');
                       }  
@@ -2398,26 +2396,36 @@ class Service extends REST_Controller
             return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
 
         $res   = $this->user_model->get_user_notifications($user_id,$join_key);
-
+        
         $where = (!empty($join_key))?"user_id ='".$user_id."' and join_key='".$join_key."'":"user_id='".$user_id."'";
 
-        $notification_count = $this->db->query("select count(*) as cnt from user_notifications where $where and is_viewed='0'")->row_array();
-          
+        $notification_count = $this->db->query("select count(*) as cnt from user_notifications where $where and is_viewed='0'")->row_array();          
+
+       // $group_message_count= $this->db->query("select count(*) as cnt from group_message where $where and is_viewed='0'")->row_array();
+
+        //$cnt = $group_message_count['cnt'] + $notification_count['cnt'];
+        $cnt = $notification_count['cnt'];
 
         if(empty($res))
             return $this->response(array('status' => 'error','msg' => 'No messages received!','error_code' => 101), 404);
         else    
-            return $this->response(array('status' => 'success', 'message_list' => $res,'notification_count' => $notification_count['cnt'],'user_id'=> $user_id), 200);
+            return $this->response(array('status' => 'success', 'message_list' => $res,'notification_count' => $cnt,'user_id'=> $user_id), 200);
    }
 
    function update_notification_view_get($msg_id)
    {
         $msg_id  = $this->get('msg_id');
         $type    = $this->get('type');
+        $join_key= $this->get('join_key');
 
         $field   = (!empty($type) && ($type == 'user'))?"user_id":"id";
+
         $res     = $this->user_model->update('user_notifications',array('is_viewed'=>1),
                                          array("$field" => $msg_id));
+
+       // $res     = $this->user_model->update('group_message',array('is_viewed'=>1),
+                                //         array("join_key" => $join_key));
+
         return $this->response(array('status' => 'success', 'msg' => 'View status updated'), 200);
    }
    
@@ -3849,6 +3857,35 @@ class Service extends REST_Controller
       
       return $this->response(array('status' =>'success','request_type' => 'send_message_to_user'), 200);  
     }
+
+
+    // function send_message_to_group_get()
+    // {
+
+
+    //   $user_id  = $this->get('user_id');
+    //   $join_key = $this->get('join_key');
+    //   $message  = $this->get('message');
+       
+    //     if(!(int)$user_id && empty($join_key) && empty($message)) {
+    //         return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    //     }    
+
+    //     $ins_data = array(); 
+    //     $ins_data['user_id']      = $user_id;
+    //     $ins_data['join_key']     = $join_key;
+    //     $ins_data['date_created'] = date("Y-m-d H:i:s");
+    //     $ins_data['is_viewed']    = 0;
+    //     $message                  = array("user_id" => $user_id, "join_key" => $join_key, "msg" => $message, 'date_created' => strtotime(date("Y-m-d H:i:s")));
+    //     $ins_data['message']      = json_encode($message);
+
+    //     $message_id               = $this->group_model->send_message_to_group($ins_data); 
+
+    //     if($message_id)
+    //       return $this->response(array('status' =>'success', 'msg' => 'Message sent successfully.'), 200);
+    //     else
+    //       return $this->response(array('status' =>'error', 'msg' => "Message doesn't sent"), 404);   
+    // }
    
 }
 ?>

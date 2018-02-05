@@ -6,7 +6,7 @@ class Group_Model  extends App_model {
     function __construct()
     {
         parent::__construct();
-        $this->_table = '';
+        $this->_table = 'groups';
     }
    	
     function listing()
@@ -188,6 +188,12 @@ class Group_Model  extends App_model {
        // $this->db->where("g.type","private");
         $this->db->order_by("g.id","asc");
         return $this->db->get()->result_array();
+    }
+
+    function send_message_to_group($ins_data)
+    {
+        $this->db->insert("group_message",$ins_data);
+        return $this->db->insert_id();
     }
 }
 ?>
