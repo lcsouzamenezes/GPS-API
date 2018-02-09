@@ -21,12 +21,12 @@ class Service extends REST_Controller
 
                 if(is_array($user_device) && $user_device['device_id']!=''){
 
-                    $res = $this->db->query("select * from user where device_id='".$key."' AND id='".$user."'")->num_rows();
+                   echo $res = $this->db->query("select * from user where device_id='".$key."' AND id='".$user."'")->num_rows();
 
                     if($res==0){
                         return $this->response(array('status' => 'logout','msg' => 'You are logged in to other device','error_code' => 1), 404);
                     }    
-                    
+
                 }    
             }
         }
@@ -99,8 +99,8 @@ class Service extends REST_Controller
             $plan    = $this->plan_model->get_plan_details(array("plan_type"=>$user_plan));
             $plan_id = $plan['plan_id'];
             
-            $source_image   = "var/www/html/heresmygps.com/assets/uploads/profile/".$profile_image;
-            $image_crop_url = "var/www/html/heresmygps.com/assets/uploads/profile/resize";
+            $source_image   = "var/www/html/heresmygps/assets/uploads/profile/".$profile_image;
+            $image_crop_url = "var/www/html/heresmygps/assets/uploads/profile/resize";
             
             //check if phonenumber already exist or not for guest user
             //$result = $this->user_model->check_unique(array("phonenumber" => $phonenumber));
@@ -460,8 +460,8 @@ class Service extends REST_Controller
               
                  file_put_contents($file, $current, FILE_APPEND);
                  
-                 $image_crop_url = "var/www/html/heresmygps.com/assets/uploads/profile/resize";
-                 $source_image   = "var/www/html/heresmygps.com/assets/uploads/profile/social.jpg";
+                 $image_crop_url = "var/www/html/heresmygps/assets/uploads/profile/resize";
+                 $source_image   = "var/www/html/heresmygps/assets/uploads/profile/social.jpg";
                  $image_name     = $user_id.".jpg";
                 // image_crop($source_image,$image_crop_url,$image_name);
                  
@@ -592,8 +592,8 @@ class Service extends REST_Controller
             $display_name = $this->get('display_name');
             $image_type   = $this->get('image_type');
 
-            $source_image   = "var/www/html/heresmygps.com/assets/uploads/profile/".$profile_image;
-            $image_crop_url = "var/www/html/heresmygps.com/assets/uploads/profile/resize";
+            $source_image   = "var/www/html/heresmygps/assets/uploads/profile/".$profile_image;
+            $image_crop_url = "var/www/html/heresmygps/assets/uploads/profile/resize";
                         
             $ins_data = array();
             
@@ -1079,16 +1079,16 @@ class Service extends REST_Controller
             $favourite_groups[$fkey]['members_count'] = $count;
 
             if($fvalue['profile_image']!='' && $fvalue['user_type']=='admin'){
-                $source_image   = "var/www/html/heresmygps.com/assets/uploads/profile/".$fvalue['profile_image'];                
+                $source_image   = "var/www/html/heresmygps/assets/uploads/profile/".$fvalue['profile_image'];                
 
                 if($jvalue['login_type']=='social')
                 {
-                     $file    = "var/www/html/heresmygps.com/assets/uploads/profile/social.jpg";
+                     $file    = "var/www/html/heresmygps/assets/uploads/profile/social.jpg";
                      $current = file_get_contents($jvalue['profile_image']);
                   
                      file_put_contents($file, $current, FILE_APPEND);
                      
-                     $source_image   = "var/www/html/heresmygps.com/assets/uploads/profile/social.jpg";
+                     $source_image   = "var/www/html/heresmygps/assets/uploads/profile/social.jpg";
                 }   
 
                 $image_name = $fvalue['user_id'].".jpg";
@@ -1126,16 +1126,16 @@ class Service extends REST_Controller
 
             if($jvalue['profile_image']!='' && $jvalue['user_type']=='admin'){
 
-                $source_image   = "var/www/html/heresmygps.com/assets/uploads/profile/".$jvalue['profile_image'];
+                $source_image   = "var/www/html/heresmygps/assets/uploads/profile/".$jvalue['profile_image'];
 
                 if($jvalue['login_type']=='social')
                 {
-                     $file    = "var/www/html/heresmygps.com/assets/uploads/profile/social.jpg";
+                     $file    = "var/www/html/heresmygps/assets/uploads/profile/social.jpg";
                      $current = file_get_contents($jvalue['profile_image']);
                   
                      file_put_contents($file, $current, FILE_APPEND);
                      
-                     $source_image   = "var/www/html/heresmygps.com/assets/uploads/profile/social.jpg";
+                     $source_image   = "var/www/html/heresmygps/assets/uploads/profile/social.jpg";
                 }              
 
                 $image_name = $jvalue['user_id'].".jpg";
@@ -2524,8 +2524,8 @@ class Service extends REST_Controller
        $clue_image   = $this->get('clue_image');
        $notes        = $this->get('notes');
 
-       $source_image   = "var/www/html/heresmygps.com/assets/uploads/profile/".$clue_image;
-       $image_crop_url = "var/www/html/heresmygps.com/assets/uploads/profile/resize";
+       $source_image   = "var/www/html/heresmygps/assets/uploads/profile/".$clue_image;
+       $image_crop_url = "var/www/html/heresmygps/assets/uploads/profile/resize";
         
         
        $res = $this->user_model->check_user_static_group($user_id,$group_id,$map_name);
