@@ -12,7 +12,7 @@ class Service extends REST_Controller
             
             $this->load->model(array("user_model","plan_model","group_model","user_position_model","user_groups_model","user_plans_model","promo_model"));
             
-            $key  = $this->get('X-APP-KEY');
+            $key  = $this->get('X-APP-KEY'); 
             $user = $this->get('login_uid');
 
             if($key!='' && $user!='')
@@ -22,8 +22,10 @@ class Service extends REST_Controller
                 if(is_array($user_device) && $user_device['device_id']!=''){
 
                     $res = $this->db->query("select * from user where device_id='".$key."' AND id='".$user."'")->num_rows();
-                    if($res==0)
+
+                    if($res>0){
                         return $this->response(array('status' => 'logout','msg' => 'You are logged in to other device','error_code' => 1), 404);
+                    }    
                 }    
             }
         }
@@ -32,9 +34,9 @@ class Service extends REST_Controller
             
             //check for required values
             $app_id = $this->get('app_id');
-    		if(empty($app_id)){
-    			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-    		}
+        if(empty($app_id)){
+          return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+        }
             $this->load->config("rest");
             
             $key_table = $this->config->item('rest_keys_table');
@@ -42,7 +44,7 @@ class Service extends REST_Controller
             $result =  $this->db->get_where($key_table,array('key' => $app_id))->num_rows();
                 
             if(empty($result)){
-    		     $this->db->insert($key_table,array('key' => $app_id,'custom_key'=>1,'date_created' => strtotime(date('Y-m-d'))));
+             $this->db->insert($key_table,array('key' => $app_id,'custom_key'=>1,'date_created' => strtotime(date('Y-m-d'))));
                  
                  if($this->db->insert_id()) {
                      return $this->response(array('status' =>'success','api_key' => $app_id), 200);
@@ -51,10 +53,10 @@ class Service extends REST_Controller
                  {
                      return $this->response(array('status' => "error",'msg' => 'Unknown Error Occurred!! Try Again...','error_code' => 2), 404);
                  }
-    		}
+        }
             else
             {
-                  return $this->response(array('status' =>'success','api_key' => $app_id), 200);  	
+                  return $this->response(array('status' =>'success','api_key' => $app_id), 200);    
             }
             
         }
@@ -298,9 +300,9 @@ class Service extends REST_Controller
             $val     = $this->get('val');
             $pass    = $this->get('password');
             //check for required values
-    		if($val=='' || $pass == ''){
-    			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-    		}
+        if($val=='' || $pass == ''){
+          return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+        }
             
             
             $pass = md5($pass);
@@ -362,9 +364,9 @@ class Service extends REST_Controller
             $email     = $this->get('email');
             $user_plan = $this->get('user_plan');
             
-    		if(!$this->get('email') || !$this->get('profile_image')) {
-    			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-    		}
+        if(!$this->get('email') || !$this->get('profile_image')) {
+          return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+        }
                         
             $where = array("email" => $email);
             $result = $this->db_model->get_user_details($where);
@@ -385,7 +387,7 @@ class Service extends REST_Controller
                      return $this->response(array('status' => "error",'msg' => 'You are alreadly logged in another device.','error_code' => 6), 404);
                  }
                 */ 
-    			//return $this->response(array('status' =>'success',$this->_prepare_user_details($result)), 200);
+          //return $this->response(array('status' =>'success',$this->_prepare_user_details($result)), 200);
                  
                  
                 //update logged in status to 1
@@ -406,7 +408,7 @@ class Service extends REST_Controller
                  //check if user selected plan or not
                   $plan_data = get_plan_data($result['id']); 
                      
-    			 return $this->response(array('status' =>'success','default_id' => $default_id,'phonenumber' => $phonenumber,'user_id' => $result['id'],'email' => $email,'profile_image' => $profile_image,'android_id' => $android_id,'device_id' => $device_id,'display_name' => $result['display_name'],'is_show' => $result['is_show'],'is_contact' => $result['is_contact'],'plan_selected' => (count($plan_data)>0)?"yes":"no"), 200);
+           return $this->response(array('status' =>'success','default_id' => $default_id,'phonenumber' => $phonenumber,'user_id' => $result['id'],'email' => $email,'profile_image' => $profile_image,'android_id' => $android_id,'device_id' => $device_id,'display_name' => $result['display_name'],'is_show' => $result['is_show'],'is_contact' => $result['is_contact'],'plan_selected' => (count($plan_data)>0)?"yes":"no"), 200);
             }
             else
             {
@@ -517,7 +519,7 @@ class Service extends REST_Controller
                      $this->data['username'] = $result['default_id'];
                      $message = $this->load->view("email_template/send_email_template",$this->data,true);
                    //   $message  = "<html>";
-		                 // $message .= "<body>";
+                     // $message .= "<body>";
                    //   $message .= "<p>Hi $username,</p><br/>";
                    //   $message .= "<p>Please click below link to reset your password.</p><br/>";
                    //   $message .= "<p><a href='".$fpwd_url."' title='Reset Your Password'>Click Here</a></p><br/><br/>";
@@ -525,13 +527,13 @@ class Service extends REST_Controller
                    //   $message .= "<p><a href='http://911gps.me'>911gps.me</a></p>"; 
                    //   $message .= "</body></html>";
 
-					// $this->email->set_newline("\r\n");	
-					// $this->email->set_header('MIME-Version', '1.0; charset=utf-8'); 
-					// $this->email->set_header('Content-type', 'text/html'); 
+          // $this->email->set_newline("\r\n"); 
+          // $this->email->set_header('MIME-Version', '1.0; charset=utf-8'); 
+          // $this->email->set_header('Content-type', 'text/html'); 
                   //print_r($message); exit;
 
-					           $this->email->clear(TRUE);
-					           $this->email->set_newline("\r\n");		
+                     $this->email->clear(TRUE);
+                     $this->email->set_newline("\r\n");   
                      $this->email->from('contact@heresmygps.com','Contact');
                      $this->email->to($email);
                      $this->email->subject('Forgot Password');
@@ -577,9 +579,9 @@ class Service extends REST_Controller
         function user_profile_save_get() {
             
                //check for required values
-    		if(!$this->get('phonenumber')) {
-    			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-    		}
+        if(!$this->get('phonenumber')) {
+          return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+        }
             $default_id   = $this->get('default');
             $phonenumber  = $this->get('phonenumber');
             $user_id      = $this->get('user_id');
@@ -680,10 +682,10 @@ class Service extends REST_Controller
         function user_gcm_update_post() {
             
                //check for required values
-    		if((!$this->post('user_id')) && (!$this->post('gcm_id') )) 
-    		{
-    			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-    		}
+        if((!$this->post('user_id')) && (!$this->post('gcm_id') )) 
+        {
+          return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+        }
             
             $user_id = $this->post('user_id');
             $gcm_id  = $this->post('gcm_id');
@@ -711,9 +713,9 @@ class Service extends REST_Controller
     function user_position_save_get()
     {    
       //check for required values
-		if(!$this->get('user_id') || !$this->get('lat') || !$this->get('lon')) {
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}
+    if(!$this->get('user_id') || !$this->get('lat') || !$this->get('lon')) {
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }
      
         $user_id      = $this->get('user_id');
         $sensor_speed = $this->get("sensor_speed");
@@ -766,7 +768,7 @@ class Service extends REST_Controller
          $track = $this->user_model->check_unique(array("id" => $user_id)); 
         // print_r($track);
         // exit;
-          if($track['is_tracked'] == 1){  	
+          if($track['is_tracked'] == 1){    
             $this->push_group_user_data_to_gcm("",$user_id,$sensor_speed);
          }
         return $this->response(array('status' =>'success', 'request_type' => 'user_position_update'), 200);
@@ -778,10 +780,10 @@ class Service extends REST_Controller
      {
            
             //check for required values
-    		if(!$this->get('name') || !$this->get('type')|| !$this->get('user_id') || !$this->get('join_key') || !$this->get('location_type'))
-    		{
-    			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-    		}
+        if(!$this->get('name') || !$this->get('type')|| !$this->get('user_id') || !$this->get('join_key') || !$this->get('location_type'))
+        {
+          return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+        }
                         
             $group_id     = $this->get('group_id');
             $join_key     = $this->get('join_key');
@@ -853,7 +855,7 @@ class Service extends REST_Controller
             }
             
               if($group_id) {
-                	
+                  
                     return $this->response(array('status' =>'success','request_type' => 'group_creation','group_id' => $group_id,'join_key' => $join_key), 200);
               }
               else
@@ -867,9 +869,9 @@ class Service extends REST_Controller
         {
                         
             //check for required values
-    		if(!$this->get('user_id')){
-    			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-    		}
+        if(!$this->get('user_id')){
+          return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+        }
             
             $user_groups = $this->group_model->lists($this->get('user_id'));
             
@@ -942,9 +944,9 @@ class Service extends REST_Controller
       function join_group_get($user_id='',$group_id ='') 
       { 
         //check for required values
-		if(!$this->get('join_key') || !$this->get('user_id')){
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}
+    if(!$this->get('join_key') || !$this->get('user_id')){
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }
                 
         $join_key = $this->get('join_key');
         $user_id  = $this->get('user_id');
@@ -1004,9 +1006,9 @@ class Service extends REST_Controller
     function group_leave_get()
     {
         //check for required values
-		if(!$this->get('group_id')|| !$this->get('user_id')){
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}  
+    if(!$this->get('group_id')|| !$this->get('user_id')){
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }  
         
         $user_id   = $this->get("user_id");
         $join_key  = $this->get("group_id"); 
@@ -1036,9 +1038,9 @@ class Service extends REST_Controller
     {
       
         //check for required values
-		if(!$this->get('group_id')|| !$this->get('user_id')){
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}  
+    if(!$this->get('group_id')|| !$this->get('user_id')){
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }  
         
         $user_id   = $this->get("user_id");
         $join_key  = $this->get("group_id"); 
@@ -1061,9 +1063,9 @@ class Service extends REST_Controller
     function favourite_groups_get()
     {
          //check for required values
-		if(!$this->get('user_id')){
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}  
+    if(!$this->get('user_id')){
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }  
         
         $user_id   = $this->get("user_id");  
          
@@ -1107,9 +1109,9 @@ class Service extends REST_Controller
     function joined_groups_get()
     {
        //check for required values
-		if(!$this->get('user_id')){
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}  
+    if(!$this->get('user_id')){
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }  
         
         $user_id   = $this->get("user_id");  
          
@@ -1153,9 +1155,9 @@ class Service extends REST_Controller
    function delete_groups_get()
    {
      //check for required values
-		if(!$this->get('group_id')){
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}  
+    if(!$this->get('group_id')){
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }  
         
         $group_id   = $this->get("group_id");
         
@@ -1170,9 +1172,9 @@ class Service extends REST_Controller
    {
 
        //check for required values
-		if((!$this->get('tracker')) && (!$this->get('user_id'))){
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		} 
+    if((!$this->get('tracker')) && (!$this->get('user_id'))){
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    } 
                 
         $user_id                = $this->get("user_id");
         $tracker                = $this->get("tracker");
@@ -1198,8 +1200,8 @@ class Service extends REST_Controller
     //user current group active 
     function user_current_group_active_get() {
         if(!$this->get('group_id') || !$this->get('user_id')){
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}  
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }  
         
          $user_id   = $this->get("user_id");
          $join_key  = $this->get("group_id"); 
@@ -1255,9 +1257,9 @@ class Service extends REST_Controller
     function check_group_get()
     {
         //check for required values
-		if(!$this->get('join_key')){
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}
+    if(!$this->get('join_key')){
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }
         
         $join_key = str_to_lower($this->get('join_key'));
         $result   = $this->group_model->check_unique(array("join_key" => $join_key));
@@ -1293,8 +1295,8 @@ class Service extends REST_Controller
     function group_status_get()
     {
          if(!$this->get('group_id') && !$this->get('user_id') && !$this->get('view')){
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}  
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }  
         
          $user_id   = $this->get("user_id");
          $join_key  = $this->get("group_id");
@@ -1530,9 +1532,9 @@ class Service extends REST_Controller
    {
    
         //check for required values
-		if(!$this->get('join_key') && !$this->get('user_id') && !$this->get('allowed')) {
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		} 
+    if(!$this->get('join_key') && !$this->get('user_id') && !$this->get('allowed')) {
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    } 
                 
         $join_key  = (!empty($join_key))?$join_key:$this->get("join_key");
         $user_id   = (!empty($user_id))?$user_id:$this->get("user_id"); 
@@ -1817,9 +1819,9 @@ class Service extends REST_Controller
    {
     
         //check for required values
-		if(!$this->get('join_key') && !$this->get('user_id')) {
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}
+    if(!$this->get('join_key') && !$this->get('user_id')) {
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }
       
         $user_id  = $this->get('user_id');
         $join_key = $this->get('join_key');
@@ -1859,9 +1861,9 @@ class Service extends REST_Controller
    {
     
         //check for required values
-		if(!$this->get('join_key') && !$this->get('user_id')) {
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}
+    if(!$this->get('join_key') && !$this->get('user_id')) {
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }
         
         $this->load->library("FCM");
         
@@ -1933,9 +1935,9 @@ class Service extends REST_Controller
    function group_members_get()
    {
         //check for required values
-		if(!$this->get('join_key')) {
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}                
+    if(!$this->get('join_key')) {
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }                
         $join_key = $this->get("join_key");
         
         //group details
@@ -2057,9 +2059,9 @@ class Service extends REST_Controller
    function delete_member_get()
    {
        //check for required values
-		if(!$this->get('group_id') && !$this->get('user_id')) {
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}
+    if(!$this->get('group_id') && !$this->get('user_id')) {
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }
                 
         $this->load->library("FCM");
         
@@ -2122,9 +2124,9 @@ class Service extends REST_Controller
    {
     
          //check for required values
-		if(!$this->get('join_key') && !$this->get('user_id')) {
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}
+    if(!$this->get('join_key') && !$this->get('user_id')) {
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }
                 
         $join_key = $this->get("join_key");
         $user_id  = $this->get("user_id");
@@ -2167,9 +2169,9 @@ class Service extends REST_Controller
    function update_display_name_get()
    {
          //check for required values
-		if(!$this->get('user_id')) {
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}
+    if(!$this->get('user_id')) {
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }
                 
          $user_id      = $this->get("user_id");
          $display_name = $this->get("display_name");
@@ -2218,9 +2220,9 @@ class Service extends REST_Controller
    {
     
          //check for required values
-		if(!$this->get('email')) {
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}
+    if(!$this->get('email')) {
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }
                 
         $email = $this->get("email");
         
@@ -2262,9 +2264,9 @@ class Service extends REST_Controller
    {
      
        //check for required values
-		if(!$this->get('user_id')) {
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}
+    if(!$this->get('user_id')) {
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }
                 
         $user_id = $this->get('user_id');
         
@@ -2621,9 +2623,9 @@ class Service extends REST_Controller
     function favourite_channel_get()
     {
         //check for required values
-		if(!$this->get('group_id')){
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}  
+    if(!$this->get('group_id')){
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }  
         
         $join_key  = $this->get("group_id"); 
         
@@ -2644,9 +2646,9 @@ class Service extends REST_Controller
     function flag_channel_get()
     {
         //check for required values
-		if(!$this->get('group_id')){
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}  
+    if(!$this->get('group_id')){
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }  
         
         $join_key  = $this->get("group_id"); 
         
@@ -2668,9 +2670,9 @@ class Service extends REST_Controller
     {
        
        //check for required values
-  		if(!$this->get('user_id')){
-  			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-  		} 
+      if(!$this->get('user_id')){
+        return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+      } 
         
         $user_id = $this->get('user_id');
         
@@ -2707,33 +2709,33 @@ class Service extends REST_Controller
            
            if(count($members) > 0) {
            
-				for($i=0; $i<count($members); $i++) {
-				    $group     = $this->group_model->check_unique(array("id" => $cvalue['gid']));
-					//favourite and flag values
-					$favourite = $this->favourite_model->check_unique(array("favourite_user_id" => $members[$i]['uid'], "group_id" => $cvalue['gid']));
-					$flag      = $this->flag_model->check_unique(array("flag_user_id" => $members[$i]['uid'], "group_id" => $cvalue['gid']));
-					
-					$manage_channels[$ckey]['members'][$i]['default_id']    = $members[$i]['default_id'];
-					$manage_channels[$ckey]['members'][$i]['phonenumber']   = $members[$i]['phonenumber'];
-					$manage_channels[$ckey]['members'][$i]['display_name']  = $members[$i]['display_name'];
-					$manage_channels[$ckey]['members'][$i]['email']         = $members[$i]['email'];
-					$manage_channels[$ckey]['members'][$i]['profile_image'] = $this->profile_url."/thumb_".$members[$i]['uid'].".jpg";
-					$manage_channels[$ckey]['members'][$i]['default_id']    = $members[$i]['default_id'];
-					$manage_channels[$ckey]['members'][$i]['flag']          = ((!empty($flag)) && (count($flag)>0))?1:0;
-					$manage_channels[$ckey]['members'][$i]['block']         = $members[$i]['blocked'];
-					$manage_channels[$ckey]['members'][$i]['favourite']     = (isset($favourite['favourite']) && !empty($favourite['favourite']))?$favourite['favourite']:0;
-					$manage_channels[$ckey]['members'][$i]['last_seen_time']= $members[$i]['last_seen_time'];
-					$manage_channels[$ckey]['members'][$i]['user_id']       = $members[$i]['uid'];
-					$manage_channels[$ckey]['members'][$i]['satiation_id']  = $members[$i]['satiation_id'];
-					$manage_channels[$ckey]['members'][$i]['is_overwrite']  = $members[$i]['is_overwrite'];
+        for($i=0; $i<count($members); $i++) {
+            $group     = $this->group_model->check_unique(array("id" => $cvalue['gid']));
+          //favourite and flag values
+          $favourite = $this->favourite_model->check_unique(array("favourite_user_id" => $members[$i]['uid'], "group_id" => $cvalue['gid']));
+          $flag      = $this->flag_model->check_unique(array("flag_user_id" => $members[$i]['uid'], "group_id" => $cvalue['gid']));
+          
+          $manage_channels[$ckey]['members'][$i]['default_id']    = $members[$i]['default_id'];
+          $manage_channels[$ckey]['members'][$i]['phonenumber']   = $members[$i]['phonenumber'];
+          $manage_channels[$ckey]['members'][$i]['display_name']  = $members[$i]['display_name'];
+          $manage_channels[$ckey]['members'][$i]['email']         = $members[$i]['email'];
+          $manage_channels[$ckey]['members'][$i]['profile_image'] = $this->profile_url."/thumb_".$members[$i]['uid'].".jpg";
+          $manage_channels[$ckey]['members'][$i]['default_id']    = $members[$i]['default_id'];
+          $manage_channels[$ckey]['members'][$i]['flag']          = ((!empty($flag)) && (count($flag)>0))?1:0;
+          $manage_channels[$ckey]['members'][$i]['block']         = $members[$i]['blocked'];
+          $manage_channels[$ckey]['members'][$i]['favourite']     = (isset($favourite['favourite']) && !empty($favourite['favourite']))?$favourite['favourite']:0;
+          $manage_channels[$ckey]['members'][$i]['last_seen_time']= $members[$i]['last_seen_time'];
+          $manage_channels[$ckey]['members'][$i]['user_id']       = $members[$i]['uid'];
+          $manage_channels[$ckey]['members'][$i]['satiation_id']  = $members[$i]['satiation_id'];
+          $manage_channels[$ckey]['members'][$i]['is_overwrite']  = $members[$i]['is_overwrite'];
                    // $manage_channels[$ckey]['members'][$i]['is_favourite']  = $group['is_favourite'];
-                  //  $manage_channels[$ckey]['members'][$i]['type']          = $group['type'];	
-				} 
+                  //  $manage_channels[$ckey]['members'][$i]['type']          = $group['type']; 
+        } 
             
-			}else {
-				$manage_channels[$ckey]['members']= array();
-			}
-			 
+      }else {
+        $manage_channels[$ckey]['members']= array();
+      }
+       
         }
         return $this->response(array('status' =>'success', 'request_type' => 'manage_channels','channels' => $manage_channels), 200);  
     }
@@ -2742,9 +2744,9 @@ class Service extends REST_Controller
     function favourite_user_get()
     {
       //check for required values
-		if((!$this->get('user_id')) && (!$this->get('favourite_user_id')) && (!$this->get('group_id'))){
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}   
+    if((!$this->get('user_id')) && (!$this->get('favourite_user_id')) && (!$this->get('group_id'))){
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }   
         
         $user_id           = $this->get("user_id");
         $favourite_user_id = $this->get("favourite_user_id");
@@ -2777,9 +2779,9 @@ class Service extends REST_Controller
     function flag_user_get()
     {
       //check for required values
-		if((!$this->get('user_id')) && (!$this->get('flag_user_id')) && (!$this->get('group_id')) && (!$this->get('flag_message'))){
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}   
+    if((!$this->get('user_id')) && (!$this->get('flag_user_id')) && (!$this->get('group_id')) && (!$this->get('flag_message'))){
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }   
         
         $user_id           = $this->get("user_id");
         $flag_user_id      = $this->get("flag_user_id");
@@ -2810,9 +2812,9 @@ class Service extends REST_Controller
     function blocked_members_get()
     {
         //check for required values
-		if(!$this->get('user_id')){
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		} 
+    if(!$this->get('user_id')){
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    } 
         
         $user_id  = $this->get("user_id");
         
@@ -2866,9 +2868,9 @@ class Service extends REST_Controller
     function flag_messages_get()
     {
       //check for required values
-		if((!$this->get('user_id')) && (!$this->get('flag_user_id')) && (!$this->get('group_id'))){
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}   
+    if((!$this->get('user_id')) && (!$this->get('flag_user_id')) && (!$this->get('group_id'))){
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }   
         
         $this->load->model("flag_model");
         
@@ -2891,9 +2893,9 @@ class Service extends REST_Controller
     function delete_flag_get()
     {
       //check for required values
-		if((!$this->get('flag_id'))){
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}   
+    if((!$this->get('flag_id'))){
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }   
         
         $this->load->model("flag_model");
         
@@ -2907,9 +2909,9 @@ class Service extends REST_Controller
     function user_own_channels_get()
     {
          //check for required values
-		if((!$this->get('user_id'))){
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}   
+    if((!$this->get('user_id'))){
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }   
         
         $this->load->model("group_model");
         
@@ -2957,9 +2959,9 @@ class Service extends REST_Controller
     function user_update_satiation_id_get()
     {
          //check for required values
-		if((!$this->get('user_id')) && (!$this->get('satiation_id'))){
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}   
+    if((!$this->get('user_id')) && (!$this->get('satiation_id'))){
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }   
         
         $this->load->model("user_model");
         
@@ -2974,9 +2976,9 @@ class Service extends REST_Controller
     function user_update_display_name_get()
     {
          //check for required values
-		if((!$this->get('user_id')) && (!$this->get('display_name'))){
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}   
+    if((!$this->get('user_id')) && (!$this->get('display_name'))){
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }   
         
         $this->load->model("user_model");
         
@@ -2991,9 +2993,9 @@ class Service extends REST_Controller
     function user_update_is_overwrite_get()
     {
          //check for required values
-		if((!$this->get('user_id')) && (!$this->get('is_overwrite'))){
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}   
+    if((!$this->get('user_id')) && (!$this->get('is_overwrite'))){
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }   
         
         $this->load->model("user_model");
         
@@ -3009,9 +3011,9 @@ class Service extends REST_Controller
     function get_user_satiation_id_get()
     {
          //check for required values
-		if(!$this->get('user_id')){
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}   
+    if(!$this->get('user_id')){
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }   
         
         $this->load->model(array("user_model","group_model"));
         $user_id     = $this->get("user_id");
@@ -3037,14 +3039,14 @@ class Service extends REST_Controller
     
    function plan_details_get()
    {
-	   if(!$this->get('plan_id')){
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}  
-		
+     if(!$this->get('plan_id')){
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }  
+    
         $access_arr = array("free_joinable_hmgps_live_maps","access_maps_with_search_site","mutable_user","permanent_hmgps_userids_map_channels","number_of_joined_user_allowed_on_one_map","password_protection_for_maps","allow_or_deni_access","no_ads_on_app","no_ads_on_web");
         
-		$plan_id = $this->get('plan_id');
-		
+    $plan_id = $this->get('plan_id');
+    
         $plan_details =  $this->plan_model->get_plan_all_datas(array('t.type =' => 'app','p.id' => $plan_id));
         
         $plan_details_arr['detail'] = (array)$plan_details;
@@ -3066,13 +3068,13 @@ class Service extends REST_Controller
     /*  Plan select */
     
     function active_plan_get()
-    {	
-		if((!$this->get('user_id'))){
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}
-		
-		$plan_id   = $this->get('plan_id');
-		$user_id   = $this->get('user_id');
+    { 
+    if((!$this->get('user_id'))){
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }
+    
+    $plan_id   = $this->get('plan_id');
+    $user_id   = $this->get('user_id');
       //  $type    = $this->get("type");
         $promo_id  = $this->get("promo_id");
         $pstatus   = $this->get("plan_status");
@@ -3101,42 +3103,42 @@ class Service extends REST_Controller
        // print_r($ins_data);
         //$plan_data['participant_count'] = (isset($plan_data['participant_count']) && !empty($plan_data['participant_count']))?$plan_data['participant_count']:0; 
            
-		$check = $this->plan_model->check_user_plan_exist(array("user_id" => $user_id));
+    $check = $this->plan_model->check_user_plan_exist(array("user_id" => $user_id));
         
-		if(count($check)>0) {
-			 $plan_update = $this->plan_model->plan_update("user_selected_plan",$ins_data,array("user_id" => $user_id));
-			 //return $this->response(array("status" => 'success'), 200);	
-		}
-		else 
+    if(count($check)>0) {
+       $plan_update = $this->plan_model->plan_update("user_selected_plan",$ins_data,array("user_id" => $user_id));
+       //return $this->response(array("status" => 'success'), 200); 
+    }
+    else 
         {
-			$this->db->insert("user_selected_plan",$ins_data);
-			//return $this->response(array("status" => 'success'), 200);
-		}	
+      $this->db->insert("user_selected_plan",$ins_data);
+      //return $this->response(array("status" => 'success'), 200);
+    } 
         $this->user_current_plan_get($user_id);
-	}
-	
-	/*  Block =5,Unblock=6  */
+  }
+  
+  /*  Block =5,Unblock=6  */
     function block_unblock_get()
-    {	
-		if((!$this->get('user_id')) || (!$this->get('val')) || (!$this->get('group_id'))){
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}
-		
-		$user_id = $this->get('user_id');
-		$val     = $this->get('val');
+    { 
+    if((!$this->get('user_id')) || (!$this->get('val')) || (!$this->get('group_id'))){
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }
+    
+    $user_id = $this->get('user_id');
+    $val     = $this->get('val');
         $group_id= $this->get('group_id');
-			
-		$plan_update = $this->plan_model->block_unblock_update("user_groups",array("blocked" => $val),array("user_id" => $user_id, "group_id" => $group_id));
-		return $this->response(array("status" => 'success'), 200); 	
-	}
-	
+      
+    $plan_update = $this->plan_model->block_unblock_update("user_groups",array("blocked" => $val),array("user_id" => $user_id, "group_id" => $group_id));
+    return $this->response(array("status" => 'success'), 200);  
+  }
+  
    
     //get user current plan
     function user_current_plan_get($user_id='')
     {
         if(!$this->get('user_id')){
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }
         
         $user_id   = $this->get("user_id");
         $plan_data = get_plan_data($user_id);
@@ -3149,7 +3151,7 @@ class Service extends REST_Controller
         {
             return $this->response(array('status' =>'error', 'request_type' => 'user_current_plan', 'msg' => 'No Plan Found', 'error_code' => 102), 404);
         }
-    }	
+    } 
     
      //pro plan service
    function pro_plans_get()
@@ -3172,38 +3174,38 @@ class Service extends REST_Controller
     }
     
     function user_is_show_update_get()
-    {	
-		if((!$this->get('user_id')) && (!$this->get('is_show'))){
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}
-		
-		$user_id = $this->get('user_id');
+    { 
+    if((!$this->get('user_id')) && (!$this->get('is_show'))){
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }
+    
+    $user_id = $this->get('user_id');
         $is_show = $this->get('is_show');
-			
-		$update  = $this->user_model->update("user",array("is_show" => $is_show),array("id" => $user_id));
-		return $this->response(array("status" => 'success'), 200); 	
-	}
-	
+      
+    $update  = $this->user_model->update("user",array("is_show" => $is_show),array("id" => $user_id));
+    return $this->response(array("status" => 'success'), 200);  
+  }
+  
     function user_is_contact_update_get()
-    {	
-		if((!$this->get('user_id')) && (!$this->get('is_contact'))){
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}
-		
-		$user_id   = $this->get('user_id');
+    { 
+    if((!$this->get('user_id')) && (!$this->get('is_contact'))){
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }
+    
+    $user_id   = $this->get('user_id');
         $is_contact= $this->get('is_contact');
-			
-		$update    = $this->user_model->update("user",array("is_contact" => $is_contact),array("id" => $user_id));
-		return $this->response(array("status" => 'success'), 200); 	
-	}
+      
+    $update    = $this->user_model->update("user",array("is_contact" => $is_contact),array("id" => $user_id));
+    return $this->response(array("status" => 'success'), 200);  
+  }
     
     function user_update_allow_deny_and_password_protect_get()
-    {	
-		if((!$this->get('user_id')) && (!$this->get('field_name'))){
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}
-		
-		$user_id          = $this->get('user_id');
+    { 
+    if((!$this->get('user_id')) && (!$this->get('field_name'))){
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }
+    
+    $user_id          = $this->get('user_id');
         $password_protect = $this->get('password_protect');
         $field_name       = $this->get('field_name');
         $allow_deny       = $this->get('allow_deny');
@@ -3216,16 +3218,16 @@ class Service extends REST_Controller
         {
             $update_data['allow_deny'] = $allow_deny;
         }
-			
-		$update    = $this->user_model->update("groups",$update_data,array("id" => $user_id));
-		return $this->response(array("status" => 'success'), 200); 	
-	}
-    	  
+      
+    $update    = $this->user_model->update("groups",$update_data,array("id" => $user_id));
+    return $this->response(array("status" => 'success'), 200);  
+  }
+        
     function allow_to_join_map_get($user_id='', $group_id='')
     {
         if((!$this->get('user_id')) && (!$this->get('group_id'))){
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }
         
         $user_id   = (!empty($user_id))?$user_id:$this->get('user_id');
         $group_id  = (!empty($group_id))?$group_id:$this->get('group_id');
@@ -3253,8 +3255,8 @@ class Service extends REST_Controller
     function group_admin_update_password_get()
     {
         if((!$this->get('join_key')) && (!$this->get('password'))){
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }
         
         $join_key   = $this->get('join_key');
         $password   = $this->get('password');
@@ -3272,8 +3274,8 @@ class Service extends REST_Controller
        //echo $this->get('join_key').$this->get('password').$this->get('user_id'); exit;
      // return $this->response(array('status' => 'error','jkey' => $this->get('join_key'),'pass' => $this->get('password'),'id' => $this->get('user_id'),'msg' => 'Required fields missing in your request','error_code' => 1), 404);
         if((!$this->get('join_key')) && (!$this->get('password')) && (!$this->get('user_id'))){
-			     return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		     }
+           return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+         }
         
         $join_key   = $this->get('join_key');
         $password   = $this->get('password');
@@ -3297,31 +3299,31 @@ class Service extends REST_Controller
     }
     
     function user_is_show_personal_locator_get()
-    {	
-		if((!$this->get('user_id')) && (!$this->get('show_personal'))){
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}
-		
-		$user_id          = $this->get('user_id');
+    { 
+    if((!$this->get('user_id')) && (!$this->get('show_personal'))){
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }
+    
+    $user_id          = $this->get('user_id');
         $show_personal    = $this->get('show_personal');
-			
-		$update    = $this->user_model->update("user",array("show_personal" => $show_personal),array("id" => $user_id));
-		return $this->response(array("status" => 'success'), 200); 	
-	}
+      
+    $update    = $this->user_model->update("user",array("show_personal" => $show_personal),array("id" => $user_id));
+    return $this->response(array("status" => 'success'), 200);  
+  }
     
     //remove only one user from that group
     function remove_one_member_from_group_get()
-    {	
-		if((!$this->get('user_id')) && (!$this->get('group_id'))){
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}
-		
-		$user_id   = $this->get('user_id');
-        $group_id  = $this->get('group_id');		
+    { 
+    if((!$this->get('user_id')) && (!$this->get('group_id'))){
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }
+    
+    $user_id   = $this->get('user_id');
+        $group_id  = $this->get('group_id');    
         
         $gr_dt = $this->group_model->check_unique(array("join_key" => $group_id));    
             
-		$this->user_groups_model->delete(array("user_id" => $user_id,"group_id" => $gr_dt['id']));
+    $this->user_groups_model->delete(array("user_id" => $user_id,"group_id" => $gr_dt['id']));
         
         $user  = $this->user_model->check_unique(array("id" => $user_id));
         
@@ -3333,17 +3335,17 @@ class Service extends REST_Controller
         $up_data['status'] = 1;
         
         $this->user_groups_model->update($up_data,array("user_id" => $user_id, "group_id" => $grp_data['id'] ));
-		return $this->response(array("status" => 'success'), 200); 	
-	}
+    return $this->response(array("status" => 'success'), 200);  
+  }
     
     //remove user from all groups
     function remove_user_from_all_groups_get()
-    {	
-		if((!$this->get('user_id'))){
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}
-		
-		    $user_id   = $this->get('user_id');	
+    { 
+    if((!$this->get('user_id'))){
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }
+    
+        $user_id   = $this->get('user_id'); 
         $groups    = $this->group_model->get_own_channel($user_id);
         
         $ids     = '';
@@ -3370,70 +3372,70 @@ class Service extends REST_Controller
         $up_data['status'] = 1;
         $this->user_groups_model->update($up_data,array("user_id" => $user_id, "group_id" => $grp_data['id']));
          
-		return $this->response(array("status" => 'success'), 200); 	
-	}
+    return $this->response(array("status" => 'success'), 200);  
+  }
     
     //admin remove all members from group
     function admin_remove_all_members_from_group_get()
-    {	
-		if((!$this->get('user_id')) && (!$this->get('join_key'))){
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}
-		
-		$user_id   = $this->get('user_id');
+    { 
+    if((!$this->get('user_id')) && (!$this->get('join_key'))){
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }
+    
+    $user_id   = $this->get('user_id');
         $join_key  = $this->get('join_key');
-			
+      
         $result    = $this->group_model->check_unique(array("join_key" => $join_key));
             
-		$this->db->query("delete from user_groups where group_id='".$result['id']."' and user_id not in ($user_id)");
+    $this->db->query("delete from user_groups where group_id='".$result['id']."' and user_id not in ($user_id)");
         
-		return $this->response(array("status" => 'success'), 200); 	
-	}
+    return $this->response(array("status" => 'success'), 200);  
+  }
     
     //clear all clues
     function admin_remove_all_clues_from_group_get()
-    {	
-		if((!$this->get('user_id')) && (!$this->get('join_key'))){
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}
-		
-		$user_id   = $this->get('user_id');
+    { 
+    if((!$this->get('user_id')) && (!$this->get('join_key'))){
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }
+    
+    $user_id   = $this->get('user_id');
         $join_key  = $this->get('join_key');
-			
+      
         $result    = $this->group_model->check_unique(array("join_key" => $join_key, 'user_id' => $user_id));
             
-		$this->db->query("delete from user_static_maps where group_id='".$result['id']."'");
+    $this->db->query("delete from user_static_maps where group_id='".$result['id']."'");
         
-		return $this->response(array("status" => 'success'), 200); 	
-	}
+    return $this->response(array("status" => 'success'), 200);  
+  }
     
     //clear both members & clues
     function remove_both_clues_and_members_get()
-    {	
-		if((!$this->get('join_key'))){
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}
-		
-		//$user_id   = $this->get('user_id');
+    { 
+    if((!$this->get('join_key'))){
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }
+    
+    //$user_id   = $this->get('user_id');
         $join_key  = $this->get('join_key');
-			
+      
         $result    = $this->group_model->check_unique(array("join_key" => $join_key));
             
-		$this->db->query("delete from user_static_maps where group_id='".$result['id']."'");
+    $this->db->query("delete from user_static_maps where group_id='".$result['id']."'");
         
         $user_id   = $result['user_id'];
          
         $this->db->query("delete from user_groups where group_id='".$result['id']."' and user_id not in ($user_id)");
         
-		return $this->response(array("status" => 'success'), 200); 	
-	}
+    return $this->response(array("status" => 'success'), 200);  
+  }
     
     //allow_deny option is enabled means need to send notification to owner of the group
     function allowdeny_send_notification_get()
     {
         if((!$this->get('join_key')) && (!$this->get('user_id'))){
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }
         
         $join_key   = $this->get('join_key');
         $user_id    = $this->get('user_id');
@@ -3478,8 +3480,8 @@ class Service extends REST_Controller
     function user_join_request_map_get()
     {
         if((!$this->get('join_key')) && (!$this->get('user_id'))){
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }
         
         $join_key   = $this->get('join_key');
         $user_id    = $this->get('user_id');
@@ -3526,8 +3528,8 @@ class Service extends REST_Controller
     //get user current active group
     function get_user_current_group_active_get() {
         if(!$this->get('user_id')){
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}  
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }  
         
          $user_id   = $this->get("user_id");
          $groups    = $this->user_groups_model->get_user_active_group($user_id);
@@ -3544,8 +3546,8 @@ class Service extends REST_Controller
     //get user current active group
     function update_guest_user_displayname_and_channel_get() {
         if(!$this->get('user_id') && !$this->get('displayname') && !$this->get('join_key')){
-			return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
-		}  
+      return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+    }  
         
          $user_id   = $this->get("user_id");
          $name      = $this->get("displayname");
@@ -3616,7 +3618,7 @@ class Service extends REST_Controller
 
    function testMail_get() 
    {
-	   
+     
 /*mail('developerid000@gmail.com','TEst','TEst'); exit;
       $gcm_id = "fPGfkO7r7iU:APA91bH6rzP4y1cPJWLQUhYR1ZhtoxOO63JNSJmvIbEWvEsmGH0qUID3WrLsxJcwgETXUHFhcERsM9ZQsImXzzj7ptlImPbE65cozi5EQ_iuMbld3WW-jAyddBlSm4qQbCjFFPMlyE0r";
       
