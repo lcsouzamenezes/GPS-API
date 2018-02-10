@@ -126,7 +126,7 @@ class User_Model  extends App_model {
         }
 
         //get normal notifications
-        $query = "SELECT u.message,u.id,u.join_key,'normal' AS type FROM user_notifications u
+        $query = "SELECT u.*,u.message,u.id,u.join_key,'normal' AS type FROM user_notifications u
                     WHERE $where 
                         u.user_id='$user_id' 
                         AND u.date_created >= (CURDATE() - INTERVAL 5 DAY) 
@@ -140,6 +140,7 @@ class User_Model  extends App_model {
 
         $result=array();
         if(count($res)){
+         
             foreach($res as $val){
                     $user  = json_decode($val['message'],TRUE);
                     $uname = $this->db->query("select id from user where default_id='".$user['default_id']."'")->row_array();
