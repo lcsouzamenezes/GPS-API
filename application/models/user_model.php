@@ -130,6 +130,7 @@ class User_Model  extends App_model {
                     WHERE $where 
                         u.user_id='$user_id' 
                         AND u.date_created >= (CURDATE() - INTERVAL 5 DAY) 
+                    ORDER BY u.id DESC    
                   -- UNION 
                   -- SELECT g.message,g.id,g.join_key,'group' AS type FROM group_message g
                   --   WHERE g.join_key='$join_key' 
