@@ -21,7 +21,7 @@ class Service extends REST_Controller
 
                 if(is_array($user_device) && $user_device['device_id']!=''){
 
-                   echo $res = $this->db->query("select * from user where device_id='".$key."' AND id='".$user."'")->num_rows();
+                    $res = $this->db->query("select * from user where device_id='".$key."' AND id='".$user."'")->num_rows();
 
                     if($res==0){
                         return $this->response(array('status' => 'logout','msg' => 'You are logged in to other device','error_code' => 1), 404);
