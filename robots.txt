@@ -1,0 +1,6 @@
+User-Agent: *
+Disallow: /about/how-it-work.php
+Disallow: /about/contact.php
+Disallow: /about/how-it-work.php
+Disallow: /about/contact.html
+Disallow: /about/contact.php
