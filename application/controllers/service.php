@@ -3,7 +3,7 @@ require APPPATH.'/libraries/REST_Controller.php';
 
 class Service extends REST_Controller
 {
-       protected $profile_url = 'http://heresmygps.com/assets/uploads/profile/resize';
+       protected $profile_url = 'http://www.heresmygps.com/assets/uploads/profile/resize';
  
         function __construct()
         {
@@ -277,7 +277,7 @@ class Service extends REST_Controller
                      
                      $file_exists  = "./assets/uploads/profile/resize/large_".$user_id.".jpg";
                      
-                     $profileImage = (file_exists($file_exists))?site_url()."assets/uploads/profile/resize/large_".$user_id.".jpg":'http://heresmygps.com/assets/images/no_image.png';
+                     $profileImage = (file_exists($file_exists))?site_url()."assets/uploads/profile/resize/large_".$user_id.".jpg":'http://www.heresmygps.com/assets/images/no_image.png';
                      
                       //check if user selected plan or not
                      $plan_data = get_plan_data($user_id);
@@ -325,7 +325,7 @@ class Service extends REST_Controller
                 if(isset($result['password']) && ($result['password'] == $pass)) {
                      $default_id        = (!empty($result['default_id']))?$result['default_id']:"";
                      $phonenumber       = (!empty($result['phonenumber']))?$result['phonenumber']:"";
-                      $profile_image     = (file_exists($file_exists))?site_url()."assets/uploads/profile/resize/large_".$result['id'].".jpg":'http://heresmygps.com/assets/images/no_image.png';
+                      $profile_image     = (file_exists($file_exists))?site_url()."assets/uploads/profile/resize/large_".$result['id'].".jpg":'http://www.heresmygps.com/assets/images/no_image.png';
                    //  $profile_image     =  site_url()."assets/uploads/profile/resize/large_".$result['id'].".jpg";
                      $email             = (!empty($result['email']))?$result['email']:"";
                      $android_id        = (!empty($result['android_id']))?$result['android_id']:"";
@@ -375,7 +375,7 @@ class Service extends REST_Controller
              $file_exists       = "./assets/uploads/profile/resize/large_".$result['id'].".jpg";
              $default_id        = (!empty($result['default_id']))?$result['default_id']:"";
              $phonenumber       = (!empty($result['phonenumber']))?$result['phonenumber']:"";
-             $profile_image     = (empty($result['profile_image']) && (file_exists($file_exists)))?$this->profile_url."large_".$result['id'].".jpg":'http://heresmygps.com/assets/images/no_image.png';
+             $profile_image     = (empty($result['profile_image']) && (file_exists($file_exists)))?$this->profile_url."large_".$result['id'].".jpg":'http://www.heresmygps.com/assets/images/no_image.png';
              $email             = (!empty($result['email']))?$result['email']:"";
              $android_id        = (!empty($result['android_id']))?$result['android_id']:"";
              $device_id         = (!empty($result['device_id']))?$result['device_id']:"";
@@ -658,7 +658,7 @@ class Service extends REST_Controller
              
              $file_exists = "./assets/uploads/profile/resize/thumb_".$user_id.".jpg";
              
-            $profileImage = (file_exists($file_exists))?site_url()."assets/uploads/profile/resize/thumb_".$user_id.".jpg":'http://heresmygps.com/assets/images/no_image.png';
+            $profileImage = (file_exists($file_exists))?site_url()."assets/uploads/profile/resize/thumb_".$user_id.".jpg":'http://www.heresmygps.com/assets/images/no_image.png';
 
             if($user_id){
                 $this->user_model->update('user',$ins_data, array('id' => $user_id));
@@ -1705,7 +1705,7 @@ class Service extends REST_Controller
                                     $user[$i]['user']['profile']['android_id']      = $pvalue['android_id'];
                                     $user[$i]['user']['profile']['device_id']       = $pvalue['device_id'];
                                     $user[$i]['user']['profile']['profile_image']   = $this->profile_url.'/thumb_'.$pvalue['id'].".jpg";
-                                    $user[$i]['user']['profile']['uimage']          = 'https://heresmygps.com/assets/uploads/profile/resize'.'/thumb_'.$pvalue['id'].".jpg";
+                                    $user[$i]['user']['profile']['uimage']          = 'https://www.heresmygps.com/assets/uploads/profile/resize'.'/thumb_'.$pvalue['id'].".jpg";
                                     $user[$i]['user']['profile']['flag']            = $pvalue['is_tracked'];
                                     $user[$i]['user']['profile']['user_type']       = $usertype;
                                     $user[$i]['user']['profile']['satiation_id']    = $pvalue['satiation_id'];
@@ -2241,7 +2241,7 @@ class Service extends REST_Controller
              $message .= "<b>Username</b> :".$username;
              $message .= "<br /><br /><br /><br /><br />";
              $message .= "<p>Thanks,<p>";
-             $message .= "<p><a href='http://heresmygps.com/'>Heresmygps.com</a></p>"; 
+             $message .= "<p><a href='http://www.heresmygps.com/'>Heresmygps.com</a></p>"; 
               
              $config['charset'] = 'iso-8859-1';
              $config['wordwrap'] = TRUE;
