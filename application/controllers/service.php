@@ -3522,8 +3522,11 @@ class Service extends REST_Controller
         
                 $msg         = ucfirst($user['default_id']).' accepted your join request now you can search that group '. ucfirst($join_key);
                 $gcm_data['msg']     = $msg;
-                $notification_status = $this->insert_notification($user_id,$join_key,$gcm_data,$notification_status,$user_id);
-                $this->fcm->send_notification(array($gcm_id),array("hmg" => $gcm_data));
+
+                $notification_status = $this->fcm->send_notification(array($gcm_id),array("hmg" => $gcm_data));
+
+                 $this->insert_notification($user_id,$join_key,$gcm_data,$notification_status,$result['user_id']);
+                
               // }    
             }
            return $this->response(array("status" => 'success','join_key' => $join_key, 'msg' => $msg , 'request_type' => 'join_request'), 200);  
