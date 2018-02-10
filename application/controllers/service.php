@@ -1846,10 +1846,12 @@ class Service extends REST_Controller
         $res = $this->user_groups_model->check_unique(array('user_id' => $user_id, 'group_id' => $result['group_id']));
 
         if($result['user_id'] != $user_id || !count($res)){
-            //insert notification to DB
-            $this->insert_notification($result['user_id'],$join_key,$gcm_data,$user_id);
+            
+            $notification_status = $this->fcm->send_notification(array($gcm_id),array("hmg" => $gcm_data));
 
-            $this->fcm->send_notification(array($gcm_id),array("hmg" => $gcm_data));
+            //insert notification to DB
+            $this->insert_notification($result['user_id'],$join_key,$gcm_data,$notification_status,$user_id);
+
         }
 
         if($response_flag)
@@ -1917,10 +1919,12 @@ class Service extends REST_Controller
                 $gcm_data['method']     = 'disconnect';
                 $gcm_data['msg']        = $msg;
                 
-                //insert notification to DB
-                $this->insert_notification($result['user_id'],$join_key,$gcm_data,$user_id);
+                $notification_status    = $this->fcm->send_notification(array($gcm_id),array("hmg" => $gcm_data));  
 
-                $this->fcm->send_notification(array($gcm_id),array("hmg" => $gcm_data)); 
+                //insert notification to DB
+                $this->insert_notification($result['user_id'],$join_key,$gcm_data,$notification_status,$user_id);
+
+               
              
             }
              
@@ -2101,10 +2105,10 @@ class Service extends REST_Controller
                 $gcm_data['method']     = 'disconnect';              
                 $gcm_data['msg']        = $msg;
                 
-                //insert notification to DB
-                $this->insert_notification($user_id,$group_name['join_key'],$gcm_data,$user_id);
+                $notification_status    = $this->fcm->send_notification(array($gcm_id),array("hmg" => $gcm_data));
 
-                $this->fcm->send_notification(array($gcm_id),array("hmg" => $gcm_data));
+                //insert notification to DB
+                $this->insert_notification($user_id,$group_name['join_key'],$gcm_data,$notification_status,$user_id);
         }
         if($user_data['login_type'] == 'app') {
             
@@ -2316,11 +2320,13 @@ class Service extends REST_Controller
         $gcm_data['default_id']     = (!empty($user_data['default_id']))?$user_data['default_id']:$user_data['phonenumber'];
         $gcm_data['method']         = 'force_update';
         $gcm_data['msg']            = "Sends Force update position to ". $gcm_data['default_id']." and group of ".$join_key;
-             
+        
+        $notification_status = $this->fcm->send_notification(array($gcm_id),array("hmg" => $gcm_data)); 
+
         //insert notification to DB
-        $this->insert_notification($user_id,$join_key,$gcm_data);
+        $this->insert_notification($user_id,$join_key,$gcm_data,$notification_status,$groups['user_id']);
                 
-        $this->fcm->send_notification(array($gcm_id),array("hmg" => $gcm_data)); 
+        
 
         if($response_flag)
             return $this->response(array("status" => 'success', 'user_id' => $user_id, 'join_key' => $join_key), 200);
@@ -2363,10 +2369,12 @@ class Service extends REST_Controller
 
         $gcm_data['msg']            =  $msg;
         
-        //insert notification to DB
-        $this->insert_notification($user_id,$join_key,$gcm_data);
+        $notification_status = $this->fcm->send_notification(array($gcm_id),array("hmg" => $gcm_data));
 
-        $this->fcm->send_notification(array($gcm_id),array("hmg" => $gcm_data));
+        //insert notification to DB
+        $this->insert_notification($user_id,$join_key,$gcm_data,$notification_status,$user_id);
+
+        
 
         return $this->response(array('status' => 'success', 'join_key' => $join_key,'user_id'=> $user_id), 200);
    }
@@ -3464,9 +3472,9 @@ class Service extends REST_Controller
         
                 $gcm_data['msg']    = ucfirst($user['default_id']).' sent join request to your channel '. ucfirst($join_key);
                 
-                $notification_staus =  $this->fcm->send_notification(array($gcm_id),array("hmg" => $gcm_data),'');
+                $notification_status =  $this->fcm->send_notification(array($gcm_id),array("hmg" => $gcm_data),'');
                 
-                $this->insert_notification($result['user_id'],$join_key,$gcm_data,$notification_staus,$user_id);
+                $this->insert_notification($result['user_id'],$join_key,$gcm_data,$notification_status,$user_id);
                 //$this->user_notifications_get($user_id);  
             }
            return $this->response(array("status" => 'success','join_key' => $join_key, 'msg' => $gcm_data['msg'] ,'request_type' => 'allow_deny_send_notification'), 200);  
@@ -3514,7 +3522,7 @@ class Service extends REST_Controller
         
                 $msg         = ucfirst($user['default_id']).' accepted your join request now you can search that group '. ucfirst($join_key);
                 $gcm_data['msg']     = $msg;
-                $this->insert_notification($user_id,$join_key,$gcm_data,$user_id);
+                $notification_status = $this->insert_notification($user_id,$join_key,$gcm_data,$notification_status,$user_id);
                 $this->fcm->send_notification(array($gcm_id),array("hmg" => $gcm_data));
               // }    
             }
@@ -3828,8 +3836,8 @@ class Service extends REST_Controller
             $gcm_id   = $uvalue['gcm_id'];
             if(!empty($gcm_id)) {  
               
-              $this->fcm->send_notification(array($gcm_id),array("hmg" => $gcm_data)); 
-              $this->insert_notification($uvalue['id'],$joinKey,$gcm_data,$sender); 
+              $notification_status = $this->fcm->send_notification(array($gcm_id),array("hmg" => $gcm_data)); 
+              $this->insert_notification($uvalue['id'],$joinKey,$gcm_data,$notification_status,$sender); 
             }
         } 
         return $this->response(array('status' =>'success','request_type' => 'send_message_to_group_members'), 200);
@@ -3854,8 +3862,8 @@ class Service extends REST_Controller
       $gcm_id   = $userData['gcm_id'];
       if(!empty($gcm_id)) {  
         
-        $this->fcm->send_notification(array($gcm_id),array("hmg" => $gcm_data));  
-        $this->insert_notification($userId,'',$gcm_data,$sender);
+        $notification_status = $this->fcm->send_notification(array($gcm_id),array("hmg" => $gcm_data));  
+        $this->insert_notification($userId,'',$gcm_data,$notification_status,$sender);
       }
       
       return $this->response(array('status' =>'success','request_type' => 'send_message_to_user'), 200);  
