@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE HTML>
+<html lang="en-US">
 <head>
 <title><?php echo $title; ?></title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
