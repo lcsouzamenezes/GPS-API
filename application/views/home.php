@@ -81,7 +81,7 @@ and anyone can join.</div>
       <div class="mobile-app marbm"> <a href=""><img src="<?php echo base_url();?>assets/images/Unthinkable.jpg" class="img-responsive" alt="alt-txt"></a> </div>
       <div class="mobile-app marbm"> <a href=""><img src="<?php echo base_url();?>assets/images/Private-Map-No-Trace-7.jpg" class="img-responsive" alt="alt-txt"></a> </div>
       <div class="mobile_button">
-      <a class="btn icon-btn btn-success" href="#" >Mobile Application</a>
+      <a class="btn icon-btn btn-success" href="https://play.google.com/store/apps/details?id=com.hmgps" >Mobile Application</a>
       </div>
     </div>
     <!-- right section-->
@@ -91,7 +91,7 @@ and anyone can join.</div>
         <div class="mobile-app marbm"> <a href=""><img src="<?php echo base_url();?>assets/images/Black-Box.jpg" class="img-responsive" alt="alt-txt"></a> </div>
         <div class="desktop-device marbm"> <a href=""><img src="<?php echo base_url();?>assets/images/Full-Spectrum.jpg" class="img-responsive" alt="alt-txt"></a> <!--<a href=""><img class="map img-responsive" src="images/map.png" alt="alt-txt"></a>--> </div>
         <div class="mobile_button1">
-      <a class="btn icon-btn btn-success" href="#">Web Based Companion Site</a>
+      <a class="btn icon-btn btn-success" href="https://911gps.me">Web Based Companion Site</a>
       </div>
       </div>
       <div class="web-text">
