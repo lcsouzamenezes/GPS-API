@@ -75,7 +75,7 @@
              <li><a href="https://www.holdenusa.com/hmgps/campaign/" target="_blank">Campaigns</a></li>
               <li><a href="<?php echo base_url();?>about-us" >About</a></li>
               <li><a href="<?php echo base_url();?>contact-us" >Contact</a></li>
-              <li class="play"> <a href=""><img src="<?php echo base_url();?>assets/images/googleplay.png" class="img-responsive" alt="Google Play" ></a></li>
+              <li class="play"> <a href="https://play.google.com/store/apps/details?id=com.hmgps"><img src="<?php echo base_url();?>assets/images/googleplay.png" class="img-responsive" alt="Google Play" ></a></li>
             </ul>
   </div><!-- /.navbar-collapse -->
   </div>
