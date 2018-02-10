@@ -10,6 +10,7 @@
 <meta name="geo.placename" content="Winston-Salem" />
 <meta name="geo.position" content="36.090297;-80.287436" />
 <meta name="ICBM" content="36.090297, -80.287436" />
+<link rel="icon" href="favicon.ico"> 
 <link rel="stylesheet" href="<?php echo base_url();?>assets/css/bootstrap.min.css" >
 <link rel="stylesheet" href="<?php echo base_url();?>assets/css/custom_main.css">
 <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
