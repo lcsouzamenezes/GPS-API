@@ -12,7 +12,6 @@
         <h2>Contact Us</h2>
       </div>
       
-
          <div class="row">
         <div class="col-md-6 contactnew_form">
             <div class="panel panel-default">
