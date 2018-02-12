@@ -80,7 +80,6 @@
   </div>  <!-- end left thump-->
 
 
-  
   <div class="col-md-12 left-thump pull-right">
   
    <div class="col-md-8 full-thump-sec content-mrt content-pdl pull-right"> <h2>Contact Heresmygps Today</h2>

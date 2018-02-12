@@ -17,8 +17,7 @@
   <li class="active">About Us</li>
 </ol>
 
-<!-- <h2>How It Works</h2>  -->  
-
+<!-- <h2>How It Works</h2>  --> 
  <p>Devices featured with GPS technology have become common. GPS is used in cars, phones and computers. It has main use in keeping kids safe, prevent loss and increase productivity. </p>
 
    </div>

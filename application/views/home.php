@@ -7,7 +7,6 @@
           <li data-target="#carousel-example-generic" data-slide-to="2"></li>
         </ol>
         <!-- Wrapper for slides -->
-        
         <div class="carousel-inner">
           <div class="item active"> <img src="<?php echo base_url();?>assets/images/banner1.jpg" alt="First slide"> </div>
           <div class="item"> <img class="img-responsive" src="<?php echo base_url();?>assets/images/banner2.jpg" alt="Second slide"> </div>
