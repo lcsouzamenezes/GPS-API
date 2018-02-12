@@ -107,15 +107,11 @@ and anyone can join.</div>
 <!-- Thumpnail Section--> 
 <div class="container padtop padbm marbm">
   <div class="col-md-12 right-thump">
-    <div class="col-md-8 full-thump-sec content-mrt content-pdr"> 
-      <p>Every parent understands the concern of sending their kids away. This is like a pertinent fear that it even is seen everywhere. The fear of losing kids is unthinkable. Therefore it is really no wonder, most people prefer to use <strong>Location Tracking GPS Apps </strong> in their cell phones, so it is very easy to keep an eye on kids. </p>
-
-      <p>The solutions provided by the tracking apps are actually the great. Tracking location for free is actually very easy and with the right applications for the right phones you can track a location for free instantly wherever they are at any time.</p>
-
-      <p>You love your family deeply and it cannot be replaced with anything else. So you want to keep them secured, you have no option however scrounge around to find the way even for which you need to try very hard. Using <strong>Location Tracking GPS Product</strong> helps you locate your kids from any device. </p>
+    <div class="col-md-8 full-thump-sec content-mrt content-pdr"> <a href="#">Easy to Share - easy to connect</a>
+      <p>One touch on the Here's My GPS Quickshare button places your exact mobile location on a live map and creates a link you can share quickly via text or email. No app is needed to view a live map. You can also just tell someone verbally the name of your map or phone number and they can search for your location on the HMGPS.me website</p>
     </div>
     <div class="col-md-4">
-      <div class="thump-sec thum-mrb"> <a href="#"><img src="<?php echo base_url();?>assets/images/thump1.jpg" class="img-responsive" alt="thump">
+      <div class="thump-sec thum-mrb"> <a href=""><img src="<?php echo base_url();?>assets/images/thump1.jpg" class="img-responsive" alt="thump">
         <div class="arrow-left"> </div>
         </a> </div>
     </div>
@@ -124,14 +120,13 @@ and anyone can join.</div>
   
   <div class="col-md-12 left-thump thum-mrb">
   
-   <div class="col-md-8 full-thump-sec content-mrt content-pdl pull-right"> 
-      <p>The popular and effective <strong>GPS Family and Friends Tracker </strong> streamlines the process and is a more effective way to get necessary updates about your family members and their location.</p>
-
-      <p>The tracking apps pin point the exact location of your kids on a map. You can find the shortest driving route to your kids. The tracking apps can be used for most android devices. You can retrieve data and location information. You can locate your kids easily. The apps are completely non-traceable so your kids wont find that you are tracking them. The apps are a great source of tracking the movement of your kids. They show accurate map of where your kids are currently and also show a complete route history. It is a significant information in case you are tracking your kids.</p>
+   <div class="col-md-8 full-thump-sec content-mrt content-pdl pull-right"> <a href="#">Great for groups of any size </a>
+      <p>It is hard to get everyone on the same "Page," not to mention the same "Map." With Here's My GPS, connecting 2 people or a large group is as fast and easy as everyone tuning to the same channel on a walkie talkie.
+        Make your channels easy to remember and open for anyone to join, or protect them with security.</p>
     </div>
     
     <div class="col-md-4 pull-right">
-      <div class="thump-sec"> <a href="#"><img src="<?php echo base_url();?>assets/images/thump2.jpg" class="img-responsive" alt="thump">
+      <div class="thump-sec"> <a href=""><img src="<?php echo base_url();?>assets/images/thump2.jpg" class="img-responsive" alt="thump">
         <div class="arrow-right"> </div>
         </a> </div>
     </div>
@@ -140,14 +135,11 @@ and anyone can join.</div>
   <!-- end right thump-->
   
   <div class="col-md-12 right-thump thum-mrb">
-    <div class="col-md-8 full-thump-sec content-mrt content-pdr">
-      <p>The <strong>Best GPS Family Locator App</strong> is equally great and suitable source of tracking location for free. Although many apps only allow you to track your own phone locations, GPS tracking apps also allow you to track any person you want without their knowledge. </p>
-
-      <p>Further, the real time <strong>GPS Fleet Tracking</strong> app brings all the benefits of location sharing like live GPS locations, messaging to devices in an easy way. The app also shows the battery value left in your driver’s phone that makes it easy to understand why the other party is not replying to texts. The privacy settings are very simple, you can choose to hide yourself fully, get a precise location. The tracking apps also run in the background using minimum battery. The tracking apps are free and anyone with iOS or android phone can use it. </p>
-
+    <div class="col-md-8 full-thump-sec content-mrt content-pdr"> <a href="#">Inspired by a real emergency situation</a>
+      <p>Here's My GPS was created by a North Carolina Civil Air Patrol officer after a lost seven-year-old called for help from a borrowed cell phone but couldn't give the responder her location. It quickly became apparent that it's very hard to tell someone where you are if you don't know "where you are".</p>
     </div>
     <div class="col-md-4">
-      <div class="thump-sec"> <a href="#"><img src="<?php echo base_url();?>assets/images/thump3.jpg" class="img-responsive" alt="thump">
+      <div class="thump-sec"> <a href=""><img src="<?php echo base_url();?>assets/images/thump3.jpg" class="img-responsive" alt="thump">
         <div class="arrow-left"> </div>
         </a> </div>
     </div>
@@ -156,15 +148,12 @@ and anyone can join.</div>
   
   <div class="col-md-12 left-thump pull-right">
   
-   <div class="col-md-8 full-thump-sec content-mrt content-pdl pull-right"> 
-      <p><strong>GPS Vehicle Tracking</strong> app has simple operation. It not only tracks locations even also helps in time management. It features simple interface and is sufficient for your location needs. There are more features that make <strong>GPS Map Channel</strong> good choice for location tracking, roadside assistance and easy for use by non-smartphoners. </p>
-
-      <p>Another advantages app is <strong>GPS Location Survival App</strong> that helps you find solutions to survive in a remote location. The app is a convenient way to learn about survivalism no matter what are you up. </p>
-
+   <div class="col-md-8 full-thump-sec content-mrt content-pdl pull-right"> <a href="#">911's Deadly Flaw - lack of location data</a>
+      <p>Last year, national newspaper USA TODAY analyzed data in multiple states to expose these chilling and little-known facts: cell phone emergency calls transmit an accurate location less than half the time, and normally provide no useful location information when placed over VoIP services or from phones using data-only plans. Here's My GPS uses Cell Tower Triangulation, GPS Satellites, Assisted GPS (A-GPS), and even local Wi-Fi networks to produce an accurate location fix</p>
     </div>
     
     <div class="col-md-4">
-      <div class="thump-sec"> <a href="#"><img src="<?php echo base_url();?>assets/images/thump4.jpg" class="img-responsive" alt="thump">
+      <div class="thump-sec"> <a href=""><img src="<?php echo base_url();?>assets/images/thump4.jpg" class="img-responsive" alt="thump">
         <div class="arrow-right"> </div>
         </a> </div>
     </div>

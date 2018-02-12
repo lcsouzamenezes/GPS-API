@@ -13,66 +13,63 @@
    
    
    <ol class="breadcrumb">
-  <li><a href="<?php echo base_url(); ?>">Home</a></li>
+  <li><a href="index.html">Home</a></li>
   <li class="active">About Us</li>
 </ol>
 
-<!-- <h2>How It Works</h2>  -->  
+<h2>How It Works</h2>   
 
- <p>Devices featured with GPS technology have become common. GPS is used in cars, phones and computers. It has main use in keeping kids safe, prevent loss and increase productivity. </p>
-
+ <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat mas.Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat mas.</p>
+ 
+  <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat mas.Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat mas.Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat mas.</p>
    </div>
    <div class="row right-thump">
-    <div class="col-md-8 full-thump-sec content-mrt content-pdr"> <h2>Track and deploy your team</h2>
-      <p>Locate, manage and deploy your team with the most advanced and reliable GPS tracking app for your business or operation. <strong>SAR GPS Team Deployment App</strong> has the advanced and best real time GPS tracking technology to track the accurate location of your team. You can find where everyone is and know if they have reached to their destination. Team will show up on your app’s map as an icon with their GPS location. </p>
+    <div class="col-md-8 full-thump-sec content-mrt content-pdr"> <a href="#">Lorem ipsum dolor sit</a>
+      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat mas</p>
     </div>
     <div class="col-md-4">
       <div class="thum-mrb thump-sec"> <a href=""><img src="<?php echo base_url();?>assets/images/thump1.jpg" class="img-responsive" alt="thump">
         </a> </div>
     </div>
   </div>
-
+  <div class="content-text  marbm">
+   <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat mas.Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat mas.</p>
+ 
+  <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat mas.Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat mas.Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat mas.</p>
+  </div>
    <div class="row right-thump">
-    <div class="col-md-8 full-thump-sec content-mrt content-pdr pull-right"> <h2>How does it work?</h2>
-      <p>GPS tracker app uses the real time Global Positioning System technology to get the accurate location of target people. Satellites send triangulated positions to the GPS tracker app providing the most accurate location. </p>
-      <ul>
-        <li> Install app on your Android or iOS device</li>
-        <li> Click on the app icon </li>
-        <li> Follow the instructions and you will receive a special key for tracking location</li>
-      </ul>
+    <div class="col-md-8 full-thump-sec content-mrt content-pdr pull-right"> <a href="#">Lorem ipsum dolor sit</a>
+      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat mas</p>
     </div>
     <div class="col-md-4 pull-right">
       <div class="thum-mrb thump-sec"> <a href=""><img src="<?php echo base_url();?>assets/images/thump1.jpg" class="img-responsive" alt="thump">
         </a> </div>
     </div>
   </div>
-<!--   <div class="content-text  marbm">
- <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat mas.Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat mas.</p>
+  <div class="content-text  marbm">
+   <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat mas.Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat mas.</p>
  
-<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat mas.Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat mas.Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat mas.</p>
-</div> -->
+  <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat mas.Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat mas.Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat mas.</p>
+  </div>
   
    <div class="row right-thump">
-    <div class="col-md-8 full-thump-sec content-mrt content-pdr"> <h2>Effective Fleet management</h2>
-      <p>Using <strong>GPS Dispatch and Coordination App</strong> you can track and trace load on the way. It provides on demand load tracking updates. The app doesn’t need a special device. It works on all phones and provides full privacy control on drivers. </p>
-
-      <p><strong>Save time</strong></p>
-
-      <p>Wherever you are based, our tracking software helps you locate your team, optimize your routers and get to the scene soon. Using <strong>GPS Search and Rescue</strong> app, your team can take action early. It is largely used by rangers, law enforcement and various volunteer SAR teams. </p>
-
-      <p>Anyone on the search mission needs a durable gear. A reliable <strong>Search and Rescue GPS App </strong>saves your time by showing the shortest way to go to the unit. Your GPS collects tracks automatically and shows it on your map.</p>
+    <div class="col-md-8 full-thump-sec content-mrt content-pdr"> <a href="#">Lorem ipsum dolor sit</a>
+      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat mas</p>
     </div>
     <div class="col-md-4">
       <div class="thum-mrb thump-sec"> <a href=""><img src="<?php echo base_url();?>assets/images/thump1.jpg" class="img-responsive" alt="thump">
         </a> </div>
     </div>
   </div>
+  <div class="content-text marbm">
+   <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat mas.Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat mas.</p>
+ 
+  <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat mas.Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat mas.Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat mas.</p>
+  </div>
   
    <div class="row right-thump">
-    <div class="col-md-8 full-thump-sec content-mrt content-pdr pull-right"> <h2>How does GPS to UTM converter work</h2>
-      <p>UTM is a set of 60 different transverse Mercator projections to cover 60 latitudinal zones with width of 6 degree. It ranges latitudes between 80 degree S to 84 degree N (covering poles). </p>
-
-      <p>Then latitude and longitude points are converted to East and North values in meters following the earth’s surface. The <strong>GPS to UTM Converter</strong> accurately calculates the value so the data created is reliable. You can be assured that there are no accuracy problems and hence, your team can rely on the values. </p>
+    <div class="col-md-8 full-thump-sec content-mrt content-pdr pull-right"> <a href="#">Lorem ipsum dolor sit</a>
+      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat mas</p>
     </div>
     <div class="col-md-4 pull-right">
       <div class="thum-mrb thump-sec"> <a href=""><img src="<?php echo base_url();?>assets/images/thump1.jpg" class="img-responsive" alt="thump">
