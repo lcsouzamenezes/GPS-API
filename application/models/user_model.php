@@ -122,7 +122,7 @@ class User_Model  extends App_model {
 
         $where = '';
         if(!empty($join_key)){
-            $where = "u.join_key='$join_key' AND ";
+           // $where = "u.join_key='$join_key' AND ";
         }
 
         //get normal notifications
