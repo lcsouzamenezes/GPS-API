@@ -2399,7 +2399,7 @@ class Service extends REST_Controller
 
    function user_notifications_get($user_id)
    {
-        $user_id  = $this->get('user_id');
+      echo  $user_id  = $this->get('user_id');
        echo $join_key = $this->get('join_key'); exit;
         $join_key = (empty($join_key))?"":$this->get('join_key');
 
