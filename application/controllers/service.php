@@ -3837,12 +3837,14 @@ class Service extends REST_Controller
       $gcm_data['sender'] = $senderData['display_name'];
       $gcm_data['method'] = 'send_message_to_group_members';
       foreach($user_details as $ukey => $uvalue) {
+        $notification_status = 'null';
             $gcm_id   = $uvalue['gcm_id'];
             if(!empty($gcm_id)) {  
               
               $notification_status = $this->fcm->send_notification(array($gcm_id),array("hmg" => $gcm_data)); 
+            }  
               $this->insert_notification($uvalue['id'],$joinKey,$gcm_data,$notification_status,$sender); 
-            }
+            
         } 
         return $this->response(array('status' =>'success','request_type' => 'send_message_to_group_members'), 200);
     }
