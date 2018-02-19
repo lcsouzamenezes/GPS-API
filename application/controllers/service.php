@@ -2407,6 +2407,7 @@ class Service extends REST_Controller
             return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
 
         $res   = $this->user_model->get_user_notifications($user_id,$join_key);
+        echo "<pre>";
         print_r($res); exit;
         $where = (!empty($join_key))?"user_id ='".$user_id."' and join_key='".$join_key."'":"user_id='".$user_id."'";
 
