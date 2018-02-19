@@ -120,9 +120,10 @@ class User_Model  extends App_model {
     function get_user_notifications($user_id,$join_key='')
     {
 
-        $where = '';
+        $where = ''; $grp_by = '';
         if(!empty($join_key)){
             $where = "u.join_key='$join_key' OR ";
+            $grp_by = "GROUP BY u.user_id";
         }
 
         //get normal notifications
@@ -130,7 +131,7 @@ class User_Model  extends App_model {
                     WHERE $where 
                         u.user_id='$user_id' 
                         AND u.date_created >= (CURDATE() - INTERVAL 5 DAY) 
-                    GROUP BY u.user_id    
+                     $grp_by   
                     ORDER BY u.id DESC    
                   -- UNION 
                   -- SELECT g.message,g.id,g.join_key,'group' AS type FROM group_message g
