@@ -123,7 +123,7 @@ class User_Model  extends App_model {
         $where = ''; $grp_by = '';
         if(!empty($join_key)){
             $where = "u.join_key='$join_key' OR ";
-            $grp_by = "GROUP BY u.user_id";
+            $grp_by = "GROUP BY u.join_key";
         }
 
         //get normal notifications
