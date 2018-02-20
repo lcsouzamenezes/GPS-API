@@ -2407,8 +2407,8 @@ class Service extends REST_Controller
             return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
 
         $res   = $this->user_model->get_user_notifications($user_id,$join_key);
-        echo "<pre>";
-        print_r($res); exit;
+       // echo "<pre>";
+     //   print_r($res); exit;
         $where = (!empty($join_key))?"user_id ='".$user_id."'":"user_id='".$user_id."'";
 
         $notification_count = $this->db->query("select count(*) as cnt from user_notifications where $where and is_viewed='0'")->row_array();          
