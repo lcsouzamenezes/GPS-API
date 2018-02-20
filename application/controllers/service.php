@@ -3833,9 +3833,10 @@ class Service extends REST_Controller
       $this->load->library("FCM");
       
       $gcm_data = array()          ;
-      $gcm_data['msg']    = $message;
-      $gcm_data['sender'] = $senderData['display_name'];
-      $gcm_data['method'] = 'send_message_to_group_members';
+      $gcm_data['msg']      = $message;
+      $gcm_data['sender']   = $senderData['display_name'];
+      $gcm_data['join_key'] = $joinKey;
+      $gcm_data['method']   = 'send_message_to_group_members';
 
       
       foreach($user_details as $ukey => $uvalue) {
