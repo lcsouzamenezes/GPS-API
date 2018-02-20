@@ -122,21 +122,20 @@ class User_Model  extends App_model {
 
         $where = ''; $grp_by = '';
         if(!empty($join_key)){
-            $where = "u.join_key='$join_key' OR ";
-            
+           // $where = "u.join_key='$join_key' AND "; 
         }
 
         //get normal notifications
         $query = "SELECT u.*,u.message,u.id,u.join_key,'normal' AS type FROM user_notifications u
-                    WHERE $where 
-                        u.user_id='$user_id' 
+                    WHERE u.user_id='$user_id' 
                         AND u.date_created >= (CURDATE() - INTERVAL 5 DAY) 
                     ORDER BY u.id DESC    
-                  -- UNION 
-                  -- SELECT g.message,g.id,g.join_key,'group' AS type FROM group_message g
-                  --   WHERE g.join_key='$join_key' 
-                  --        AND g.date_created >= (CURDATE() - INTERVAL 5 DAY)
+                 --   UNION 
+                 -- SELECT u.*,u.message,u.id,u.join_key,'normal' AS type FROM user_notifications u
+                 --  WHERE u.join_key='$join_key' 
+                 --        AND g.date_created >= (CURDATE() - INTERVAL 5 DAY)
                      ";
+
         
         $res  = $this->db->query($query)->result_array();
 
