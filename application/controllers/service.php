@@ -3884,6 +3884,10 @@ class Service extends REST_Controller
     function delete_notification_message_get()
     {
 
+      if(!$this->get("message_id")){
+            return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+      }     
+
       $message_id = $this->get("message_id");
 
       $this->db->query("delete from user_notifications where id='".$message_id."'");
