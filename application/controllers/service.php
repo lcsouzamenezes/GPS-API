@@ -3354,33 +3354,43 @@ class Service extends REST_Controller
     if((!$this->get('user_id'))){
       return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
     }
-    
+        $type      = '';
         $user_id   = $this->get('user_id'); 
+        $type      = $this->get('type');
         $groups    = $this->group_model->get_own_channel($user_id);
         
-        $ids     = '';
-        foreach($groups as $gkey => $gvalue)
-        {
-           $ids .= $gvalue['id'].",";
+        $ids = '';
+
+        if($type != 'all'){
+
+          foreach($groups as $gkey => $gvalue)
+          {
+             $ids .= $gvalue['id'].",";
+          }
+
+          $ids = " and group_id not in ($ids)";
         }
-        
+
         //echo $ids;
         
         $ids = rtrim($ids,",");
         
-        $this->db->query("delete from user_groups where user_id='".$user_id."' and group_id not in ($ids)");
+        $this->db->query("delete from user_groups where user_id='".$user_id."' $ids");
         
-        $this->user_groups_model->update(array("status" => 0),array("user_id" => $user_id));
-        
-        $user  = $this->user_model->check_unique(array("id" => $user_id));
-        
-        //set default id map to active 
-        $grp_data = $this->db->query("select g.id from groups g  
-                                      inner join user u on u.id=g.user_id where g.join_key='".$user['default_id']."'")->row_array();
-        
-        $up_data = array();
-        $up_data['status'] = 1;
-        $this->user_groups_model->update($up_data,array("user_id" => $user_id, "group_id" => $grp_data['id']));
+        if($type != 'all'){
+
+          $this->user_groups_model->update(array("status" => 0),array("user_id" => $user_id));
+          
+          $user  = $this->user_model->check_unique(array("id" => $user_id));
+          
+          //set default id map to active 
+          $grp_data = $this->db->query("select g.id from groups g  
+                                        inner join user u on u.id=g.user_id where g.join_key='".$user['default_id']."'")->row_array();
+          
+          $up_data = array();
+          $up_data['status'] = 1;
+          $this->user_groups_model->update($up_data,array("user_id" => $user_id, "group_id" => $grp_data['id']));
+       }
          
     return $this->response(array("status" => 'success'), 200);  
   }
@@ -3392,7 +3402,7 @@ class Service extends REST_Controller
       return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
     }
     
-    $user_id   = $this->get('user_id');
+        $user_id   = $this->get('user_id');
         $join_key  = $this->get('join_key');
       
         $result    = $this->group_model->check_unique(array("join_key" => $join_key));
