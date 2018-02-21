@@ -3836,6 +3836,7 @@ class Service extends REST_Controller
       $gcm_data = array()          ;
       $gcm_data['msg']      = $message;
       $gcm_data['sender']   = $senderData['display_name'];
+      $gcm_data['default_id']= $senderData['display_name'];
       $gcm_data['join_key'] = $joinKey;
       $gcm_data['method']   = 'send_message_to_group_members';
       $gcm_data['image']    = $image; 
@@ -3870,6 +3871,7 @@ class Service extends REST_Controller
       $gcm_data = array()          ;
       $gcm_data['msg']    = $message;
       $gcm_data['sender'] = $senderData['display_name'];
+      $gcm_data['default_id'] = $senderData['display_name'];
       $gcm_data['method'] = 'send_message_to_user';
       $gcm_id   = $userData['gcm_id'];
       if(!empty($gcm_id)) {  
