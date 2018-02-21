@@ -3825,6 +3825,7 @@ class Service extends REST_Controller
       $joinKey       = $this->get("join_key");
       $message       = $this->get("message");
       $sender        = $this->get("sender_id");
+      $image         = $this->get("image_path");
 
       $group_data    = $this->db->query("select * from groups where join_key='".$joinKey."'")->row_array();
       $user_details  = $this->user_groups_model->get_user_gcm($group_data['id']);
@@ -3837,6 +3838,8 @@ class Service extends REST_Controller
       $gcm_data['sender']   = $senderData['display_name'];
       $gcm_data['join_key'] = $joinKey;
       $gcm_data['method']   = 'send_message_to_group_members';
+      $gcm_data['image']    = $image; 
+      $gcm_data['type']     = 'group';
 
       
       foreach($user_details as $ukey => $uvalue) {
@@ -3878,6 +3881,14 @@ class Service extends REST_Controller
       return $this->response(array('status' =>'success','request_type' => 'send_message_to_user'), 200);  
     }
 
+    function delete_notification_message_get()
+    {
+
+      $message_id = $this->get("message_id");
+
+      $this->db->query("delete from user_notifications where id='".$message_id."'");
+      return $this->response(array('status' =>'success','request_type' => 'delete_message'), 200);
+    }
 
     // function send_message_to_group_get()
     // {
