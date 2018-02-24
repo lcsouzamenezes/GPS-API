@@ -762,8 +762,12 @@ class Service extends REST_Controller
             $ins_data['date_updated'] = strtotime(date('Y-m-d H:i:s'));
             $this->user_position_model->insert($ins_data);
 
-            if($this->get('lat') == 'noloc')
-              $this->user_groups_model->update(array('is_visible'=>1),array("user_id" => $user_id));
+            if($this->get('lat') == 'noloc'){
+                $this->user_groups_model->update(
+                                            array('is_visible'=>1, 'is_view' => 0),
+                                            array("user_id" => $user_id)
+                                          );
+            }
         }
              
          $track = $this->user_model->check_unique(array("id" => $user_id)); 
