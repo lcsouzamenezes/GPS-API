@@ -81,6 +81,7 @@ class Service extends REST_Controller
             $allow_deny     = $this->get('allow_deny');
             $upd_type       = $this->get('updated_type');
             $upd_phone      = $this->get('updated_phonenumber');
+            $location       = $this->get('location');
             
             $display_group_name = $default_id;
             $phone_group_name   = $phonenumber;
@@ -269,10 +270,10 @@ class Service extends REST_Controller
                         
                     //create group by through default id, phonenumber
                     if(!empty($default_id)) {
-                        $default_group = create_group($default_id,$user_id,'default',$pass_protect,$allow_deny);
+                        $default_group = create_group($default_id,$user_id,'default',$pass_protect,$allow_deny,$location);
                      }
                      if(!empty($phonenumber) && ($logintype == 'hmgps')) {
-                        $phone_group    = create_group($phonenumber,$user_id,'phonenumber',$pass_protect,$allow_deny);
+                        $phone_group    = create_group($phonenumber,$user_id,'phonenumber',$pass_protect,$allow_deny,$location);
                      }
                      
                      $file_exists  = "./assets/uploads/profile/resize/large_".$user_id.".jpg";
@@ -469,7 +470,7 @@ class Service extends REST_Controller
                  $pass_protect = $this->get('password_protect');
                  $allow_deny   = $this->get('allow_deny');
                  
-                 create_group($default_id,$user_id,'default',$pass_protect,$allow_deny);
+                 create_group($default_id,$user_id,'default',$pass_protect,$allow_deny,'');
                   
                  if(!$user_id) {
                     return $this->response(array('status' => "error",'request_type' => 'social_login','msg' => 'Unknown Error Occurred!! Try Again...','error_code' => 2), 404);
@@ -2212,7 +2213,7 @@ class Service extends REST_Controller
         $group_data = array();
         $group_data['description'] = $display_name;  
         $group_data['join_key']    = $channel_id;
-        create_group($channel_id, $user_id,'default',0,0);
+        create_group($channel_id, $user_id,'default',0,0,'');
         $this->group_model->update($group_data,array('id'=>$group_id));
 
         //update user info

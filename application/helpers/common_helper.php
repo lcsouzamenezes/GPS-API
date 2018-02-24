@@ -149,7 +149,7 @@ function image_crop($source_image,$image_crop_url,$name)
    
 }
 
-function create_group($join_key = '', $user_id = '',$type = '',$pass_protect='',$allow_deny='') 
+function create_group($join_key = '', $user_id = '',$type = '',$pass_protect='',$allow_deny='',$location='') 
 {  
     
     $CI = & get_instance();
@@ -205,6 +205,7 @@ function create_group($join_key = '', $user_id = '',$type = '',$pass_protect='',
             } 
             $ins_data['is_joined'] = 1;
             $ins_data['is_visible']= 1; 
+            $ins_data['is_view']   = ($location == 'noloc')?0:1;
             $ins_data['last_seen_time'] = date("Y-m-d H:i:s"); 
             $add_group             = $CI->user_groups_model->insert($ins_data);
         }
