@@ -146,7 +146,8 @@ class User_Model  extends App_model {
                     $user  = json_decode($val['message'],TRUE);
                     $uname = $this->db->query("select id from user where default_id='".$user['default_id']."'")->row_array();
                     
-                    $result[] = array('msg_id'=>$val['id'],'user_id' => $uname['id'],'message'=>json_decode($val['message'],TRUE),'is_viewed'=>$val['is_viewed'],'date_created'=>strtotime($val['date_created']), "notify_time" => $val['date_created']);
+                    $result[] = array('msg_id'=>$val['id'],'user_id' => (!empty(
+                        $uname['id']))?$uname['id']:'','message'=>json_decode($val['message'],TRUE),'is_viewed'=>$val['is_viewed'],'date_created'=>strtotime($val['date_created']), "notify_time" => $val['date_created']);
             }
         }
         return $result;
