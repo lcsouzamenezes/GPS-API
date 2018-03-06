@@ -1153,7 +1153,14 @@ class Service extends REST_Controller
                 $joined_groups[$jkey]['profile_image'] = '';
             }
         }
-        return $this->response(array('status' =>'success','request_type' => 'joined_list','list' => $joined_groups), 200);
+
+        if(count($joined_groups) > 0){
+            return $this->response(array('status' =>'success','request_type' => 'joined_list','list' => $joined_groups), 200);
+       } 
+       else
+       {
+          return $this->response(array('status' =>'error','request_type' => 'joined_list','msg' => "No joined groups found!"), 404);
+       }
     }
    
    
