@@ -326,7 +326,7 @@ class Service extends REST_Controller
                 if(isset($result['password']) && ($result['password'] == $pass)) {
                      $default_id        = (!empty($result['default_id']))?$result['default_id']:"";
                      $phonenumber       = (!empty($result['phonenumber']))?$result['phonenumber']:"";
-                      $profile_image     = (file_exists($file_exists))?site_url()."assets/uploads/profile/resize/large_".$result['id'].".jpg":'http://www.heresmygps.com/assets/images/no_image.png';
+                      $profile_image     = (file_exists($file_exists))?$this->profile_url."large_".$result['id'].".jpg":'http://www.heresmygps.com/assets/images/no_image.png';
                    //  $profile_image     =  site_url()."assets/uploads/profile/resize/large_".$result['id'].".jpg";
                      $email             = (!empty($result['email']))?$result['email']:"";
                      $android_id        = (!empty($result['android_id']))?$result['android_id']:"";
