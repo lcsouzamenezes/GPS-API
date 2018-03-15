@@ -3387,9 +3387,9 @@ class Service extends REST_Controller
 
         //echo $ids;
         
-        $ids = rtrim($ids,",");
+        $rm_ids = rtrim($ids,",");
         
-        $this->db->query("delete from user_groups where user_id='".$user_id."' $ids");
+        $this->db->query("delete from user_groups where user_id='".$user_id."' $rm_ids ");
         
         if($type != 'all'){
 
