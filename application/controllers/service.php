@@ -3,7 +3,7 @@ require APPPATH.'/libraries/REST_Controller.php';
 
 class Service extends REST_Controller
 {
-       protected $profile_url = 'https://www.heresmygps.com/assets/uploads/profile/resize';
+       protected $profile_url = 'http://www.heresmygps.com/assets/uploads/profile/resize';
  
         function __construct()
         {
