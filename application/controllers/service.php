@@ -3382,12 +3382,14 @@ class Service extends REST_Controller
              $ids .= $gvalue['id'].",";
           }
 
+          $ids = rtrim($ids,",");
+
           $ids = " and group_id not in ($ids)";
         }
 
         //echo $ids;
         
-        $rm_ids = rtrim($ids,",");
+        //$rm_ids = rtrim($ids,",");
         
         $this->db->query("delete from user_groups where user_id='".$user_id."' $rm_ids ");
         
