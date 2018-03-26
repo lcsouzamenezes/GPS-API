@@ -1555,6 +1555,7 @@ class Service extends REST_Controller
         $sensor    = $this->get("sensor_speed");
         $password  = $this->get('password');
         $type      = (empty($type))?$this->get('type'):$type;
+        $is_location_enabled = $this->get('is_location_enabled');
         
         $result    = $this->group_model->check_unique(array("join_key" => $join_key));
     
@@ -1618,7 +1619,7 @@ class Service extends REST_Controller
                   $ins_data['group_id']  = $result['id']; 
                   $ins_data['status']    = 1; 
                   $ins_data['is_joined'] = 1; 
-                  $ins_data['is_view']   = ($result['type']=='private')?1:0;
+                  $ins_data['is_view']   = ($result['type']=='private' && $is_location_enabled == 'yes')?1:0;
                  // $ins_data['is_visible']= ($result['type']=='private')?1:0;
                   $ins_data['last_seen_time']   = date('Y-m-d H:i:s');
                   
