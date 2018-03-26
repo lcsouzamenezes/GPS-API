@@ -3964,6 +3964,18 @@ class Service extends REST_Controller
     //     else
     //       return $this->response(array('status' =>'error', 'msg' => "Message doesn't sent"), 404);   
     // }
+
+    function get_user_position_get(){
+      if(!$this->get('user_id')) {
+        return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+      }
+     
+      $user_id      = $this->get('user_id');
+        
+      $result = $this->db->get_where('user_position',array('user_id' => $user_id))->row_array();
+
+      return $this->response(array('status' =>'success','request_type' => 'get_user_position', 'position' => $result), 200);
+    }
    
 }
 ?>
