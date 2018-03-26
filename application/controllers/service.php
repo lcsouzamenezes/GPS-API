@@ -3922,6 +3922,21 @@ class Service extends REST_Controller
       return $this->response(array('status' =>'success','request_type' => 'delete_message'), 200);
     }
 
+     function member_invisible_get()
+    {
+
+      if(!$this->get("user_id")){
+            return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
+      }     
+
+      $user_id = $this->get("user_id");
+
+      $this->db->query("update user_groups set is_view=0 where user_id='".$user_id."'");
+      return $this->response(array('status' =>'success','request_type' => 'member_invisible'), 200);
+    }
+
+
+
     // function send_message_to_group_get()
     // {
 
