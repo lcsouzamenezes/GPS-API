@@ -3343,12 +3343,12 @@ class Service extends REST_Controller
       return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
     }
     
-    $user_id   = $this->get('user_id');
+        $user_id   = $this->get('user_id');
         $group_id  = $this->get('group_id');    
         
         $gr_dt = $this->group_model->check_unique(array("join_key" => $group_id));    
             
-    $this->user_groups_model->delete(array("user_id" => $user_id,"group_id" => $gr_dt['id']));
+        $this->user_groups_model->delete(array("user_id" => $user_id,"group_id" => $gr_dt['id']));
         
         $user  = $this->user_model->check_unique(array("id" => $user_id));
         
@@ -3931,8 +3931,9 @@ class Service extends REST_Controller
       }     
 
       $user_id = $this->get("user_id");
+      $visible = $this->get("visible");
 
-      $this->db->query("update user_groups set is_view=0 where user_id='".$user_id."'");
+      $this->db->query("update user_groups set is_view='".$visible."' where user_id='".$user_id."'");
       return $this->response(array('status' =>'success','request_type' => 'member_invisible'), 200);
     }
 
