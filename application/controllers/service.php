@@ -274,7 +274,7 @@ class Service extends REST_Controller
                           $resp = check_reserved_keywords($default_id);
 
                          if($resp=="yes"){
-                           $msg = $default_id." is a reserved keyword so you can't able to create group";
+                           $msg = "You can't create a group in tha name of ".$default_id;
                            return $this->response(array('status' =>'error', 'msg' => $msg), 404);
                          }
 
@@ -287,7 +287,7 @@ class Service extends REST_Controller
                          $resp = check_reserved_keywords($phonenumber);
 
                          if($resp=="yes"){
-                           $msg = $phonenumber." is a reserved keyword so you can't able to create group";
+                           $msg = "You can't create a group in tha name of ".$phonenumber;
                            return $this->response(array('status' =>'error', 'msg' => $msg), 404);
                          }
 
@@ -491,7 +491,7 @@ class Service extends REST_Controller
                   $resp = check_reserved_keywords($default_id);
 
                  if($resp=="yes"){
-                   $msg = $default_id." is a reserved keyword so you can't able to create group";
+                   $msg = "You can't create a group in tha name of ".$default_id;
                    return $this->response(array('status' =>'error', 'msg' => $msg), 404);
                  }
                  
@@ -831,7 +831,7 @@ class Service extends REST_Controller
             $resp = check_reserved_keywords($join_key);
 
              if($resp=="yes"){
-               $msg = $join_key." is a reserved keyword so you can't able to update group";
+               $msg = "You can't create a group in tha name of ".$join_key;
                return $this->response(array('status' =>'error', 'msg' => $msg), 404);
              }
 
@@ -973,7 +973,7 @@ class Service extends REST_Controller
          $resp = check_reserved_keywords($channel_id);
 
          if($resp=="yes"){
-           $msg = $channel_id." is a reserved keyword so you can't able to update group";
+           $msg = "You can't create a group in tha name of ".$channel_id;
            return $this->response(array('status' =>'error', 'msg' => $msg), 404);
          } 
              
@@ -2267,7 +2267,7 @@ class Service extends REST_Controller
         $resp = check_reserved_keywords($channel_id);
 
          if($resp=="yes"){
-           $msg = $channel_id." is a reserved keyword so you can't able to create group";
+           $msg = "You can't create a group in tha name of ".$channel_id;
            return $this->response(array('status' =>'error', 'msg' => $msg), 404);
          }
 
@@ -3666,7 +3666,7 @@ class Service extends REST_Controller
        $resp = check_reserved_keywords($channelID);
 
        if($resp=="yes"){
-         $msg = $channelID." is a reserved keyword so you can't able to update group";
+         $msg = "You can't create a group in tha name of ".$channelID;
          return $this->response(array('status' =>'error', 'msg' => $msg), 404);
        }
 
