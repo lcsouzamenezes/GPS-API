@@ -164,9 +164,6 @@ function check_reserved_keywords($text = '')
 function create_group($join_key = '', $user_id = '',$type = '',$pass_protect='',$allow_deny='',$location='') 
 {  
     
-    $join_key_check    = check_reserved_keywords($join_key);
-
-    
 
     $CI = & get_instance();
     $CI->load->model(array("group_model","user_groups_model"));
