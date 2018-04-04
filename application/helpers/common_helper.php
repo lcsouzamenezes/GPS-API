@@ -149,9 +149,26 @@ function image_crop($source_image,$image_crop_url,$name)
    
 }
 
+function check_reserved_keywords($text = '')
+{
+    $CI = & get_instance();
+    $keywords = $CI->db->query("select * from reserved_keywords where keywords='$text'")->row_array();
+    
+    $response = "no";
+    if(count($keywords)>0)
+       $response = "yes";
+    
+    return $response;
+}
+
 function create_group($join_key = '', $user_id = '',$type = '',$pass_protect='',$allow_deny='',$location='') 
 {  
     
+    $join_key_check    = check_reserved_keywords($join_key);
+    if($join_key_check == "yes"){
+        return json_encode(array("status" = "error", "request_type" => "group_creation", "error" => "Group doesn't create"));
+    }
+
     $CI = & get_instance();
     $CI->load->model(array("group_model","user_groups_model"));
     

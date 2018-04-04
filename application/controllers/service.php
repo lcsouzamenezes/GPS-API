@@ -269,11 +269,29 @@ class Service extends REST_Controller
                     }
                         
                     //create group by through default id, phonenumber
-                    if(!empty($default_id)) {
+                     if(!empty($default_id)) {
+
+                          $resp = check_reserved_keywords($default_id);
+
+                         if($resp=="yes"){
+                           $msg = $default_id." is a reserved keyword so you can't able to create group";
+                           return $this->response(array('status' =>'error', 'msg' => $msg), 404);
+                         }
+
                         $default_group = create_group($default_id,$user_id,'default',$pass_protect,$allow_deny,$location);
+
                      }
+
                      if(!empty($phonenumber) && ($logintype == 'hmgps')) {
-                        $phone_group    = create_group($phonenumber,$user_id,'phonenumber',$pass_protect,$allow_deny,$location);
+
+                         $resp = check_reserved_keywords($phonenumber);
+
+                         if($resp=="yes"){
+                           $msg = $phonenumber." is a reserved keyword so you can't able to create group";
+                           return $this->response(array('status' =>'error', 'msg' => $msg), 404);
+                         }
+
+                         $phone_group    = create_group($phonenumber,$user_id,'phonenumber',$pass_protect,$allow_deny,$location);
                      }
                      
                      $file_exists  = "./assets/uploads/profile/resize/large_".$user_id.".jpg";
@@ -469,8 +487,15 @@ class Service extends REST_Controller
                  //create group
                  $pass_protect = $this->get('password_protect');
                  $allow_deny   = $this->get('allow_deny');
+
+                  $resp = check_reserved_keywords($default_id);
+
+                 if($resp=="yes"){
+                   $msg = $default_id." is a reserved keyword so you can't able to create group";
+                   return $this->response(array('status' =>'error', 'msg' => $msg), 404);
+                 }
                  
-                 create_group($default_id,$user_id,'default',$pass_protect,$allow_deny,'');
+                 $create_group =create_group($default_id,$user_id,'default',$pass_protect,$allow_deny,'');
                   
                  if(!$user_id) {
                     return $this->response(array('status' => "error",'request_type' => 'social_login','msg' => 'Unknown Error Occurred!! Try Again...','error_code' => 2), 404);
@@ -790,7 +815,10 @@ class Service extends REST_Controller
         {
           return $this->response(array('status' => 'error','msg' => 'Required fields missing in your request','error_code' => 1), 404);
         }
-                        
+                   
+
+             
+
             $group_id     = $this->get('group_id');
             $join_key     = $this->get('join_key');
             $user_id      = $this->get('user_id');
@@ -799,6 +827,15 @@ class Service extends REST_Controller
             $allow_deny   = $this->get('allow_deny');
             $password     = $this->get('password');
             
+
+            $resp = check_reserved_keywords($join_key);
+
+             if($resp=="yes"){
+               $msg = $join_key." is a reserved keyword so you can't able to create group";
+               return $this->response(array('status' =>'error', 'msg' => $msg), 404);
+             }
+
+
             $where = array();
             $where['join_key'] = str_to_lower($join_key);
          
@@ -933,7 +970,13 @@ class Service extends REST_Controller
          if($channel_id)  
               $ins_data['join_key']= $channel_id;
               
-          
+              
+         $resp = check_reserved_keywords($channel_id);
+
+         if($resp=="yes"){
+           $msg = $channel_id." is a reserved keyword so you can't able to create group";
+           return $this->response(array('status' =>'error', 'msg' => $msg), 404);
+         } 
              
 
          if(empty($ins_data))   
@@ -2221,7 +2264,16 @@ class Service extends REST_Controller
         $group_data = array();
         $group_data['description'] = $display_name;  
         $group_data['join_key']    = $channel_id;
-        create_group($channel_id, $user_id,'default',0,0,'');
+
+        $resp = check_reserved_keywords($channel_id);
+
+         if($resp=="yes"){
+           $msg = $channel_id." is a reserved keyword so you can't able to create group";
+           return $this->response(array('status' =>'error', 'msg' => $msg), 404);
+         }
+
+        $create_group = create_group($channel_id, $user_id,'default',0,0,'');
+
         $this->group_model->update($group_data,array('id'=>$group_id));
 
         //update user info
@@ -3612,6 +3664,13 @@ class Service extends REST_Controller
       $channelID    = $this->get("channel_id");
       $userID       = $this->get("user_id");
 
+       $resp = check_reserved_keywords($channelID);
+
+       if($resp=="yes"){
+         $msg = $channelID." is a reserved keyword so you can't able to create group";
+         return $this->response(array('status' =>'error', 'msg' => $msg), 404);
+       }
+
       $userdata  = $this->group_model->check_unique( array("join_key" => $channelID) );
       
       if( !count($userdata) ) 
@@ -3979,6 +4038,7 @@ class Service extends REST_Controller
       return $this->response(array('status' =>'success','request_type' => 'get_user_position', 'position' => $result), 200);
     }
    
+
 }
 ?>
 
