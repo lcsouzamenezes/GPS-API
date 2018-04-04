@@ -834,7 +834,7 @@ class Service extends REST_Controller
                $msg = $join_key." is a reserved keyword so you can't able to create group";
                return $this->response(array('status' =>'error', 'msg' => $msg), 404);
              }
-
+             
 
             $where = array();
             $where['join_key'] = str_to_lower($join_key);
@@ -969,7 +969,6 @@ class Service extends REST_Controller
 
          if($channel_id)  
               $ins_data['join_key']= $channel_id;
-              
               
          $resp = check_reserved_keywords($channel_id);
 
