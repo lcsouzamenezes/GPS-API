@@ -85,6 +85,13 @@ class Service extends REST_Controller
             
             $display_group_name = $default_id;
             $phone_group_name   = $phonenumber;
+
+             $resp = check_reserved_keywords($default_id);
+
+             if($resp=="yes"){
+               $msg = "You can't create a user in tha name of ".$default_id;
+               return $this->response(array('status' =>'error', 'msg' => $msg), 404);
+             }
             
             if($logintype == 'hmgps'){
                 $cresult = $this->user_model->check_unique(array("phonenumber" => $phonenumber,"password" => ""));
@@ -622,7 +629,7 @@ class Service extends REST_Controller
             $image_crop_url = "var/www/html/heresmygps/assets/uploads/profile/resize";
                         
             $ins_data = array();
-            
+
             if(!empty($email)) {
               //Email check
                if(!empty($user_id))
