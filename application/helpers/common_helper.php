@@ -165,9 +165,8 @@ function create_group($join_key = '', $user_id = '',$type = '',$pass_protect='',
 {  
     
     $join_key_check    = check_reserved_keywords($join_key);
-    if($join_key_check == "yes"){
-        return json_encode(array("status" = "error", "request_type" => "group_creation", "error" => "Group doesn't create"));
-    }
+
+    
 
     $CI = & get_instance();
     $CI->load->model(array("group_model","user_groups_model"));
