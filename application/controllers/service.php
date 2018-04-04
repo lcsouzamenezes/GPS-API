@@ -831,10 +831,10 @@ class Service extends REST_Controller
             $resp = check_reserved_keywords($join_key);
 
              if($resp=="yes"){
-               $msg = $join_key." is a reserved keyword so you can't able to create group";
+               $msg = $join_key." is a reserved keyword so you can't able to update group";
                return $this->response(array('status' =>'error', 'msg' => $msg), 404);
              }
-             
+
 
             $where = array();
             $where['join_key'] = str_to_lower($join_key);
@@ -973,7 +973,7 @@ class Service extends REST_Controller
          $resp = check_reserved_keywords($channel_id);
 
          if($resp=="yes"){
-           $msg = $channel_id." is a reserved keyword so you can't able to create group";
+           $msg = $channel_id." is a reserved keyword so you can't able to update group";
            return $this->response(array('status' =>'error', 'msg' => $msg), 404);
          } 
              
@@ -3666,7 +3666,7 @@ class Service extends REST_Controller
        $resp = check_reserved_keywords($channelID);
 
        if($resp=="yes"){
-         $msg = $channelID." is a reserved keyword so you can't able to create group";
+         $msg = $channelID." is a reserved keyword so you can't able to update group";
          return $this->response(array('status' =>'error', 'msg' => $msg), 404);
        }
 
