@@ -4043,6 +4043,23 @@ class Service extends REST_Controller
 
       return $this->response(array('status' =>'success','request_type' => 'get_user_position', 'position' => $result), 200);
     }
+
+
+
+
+  function get_reserved_keywords_get()
+   {
+    
+       $key_data = $this->db->query("select * from reserved_keywords")->result_array();
+
+        if(count($key_data)) {
+           return $this->response(array("status" => 'success','reserved_keywords' => $key_data),200);     
+        }
+        else
+        {
+            return $this->response(array('status' => "error",'msg' => 'No Keywords Available','error_code' => 101), 404);
+        }
+   }
    
 
 }
