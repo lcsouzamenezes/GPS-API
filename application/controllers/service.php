@@ -1823,32 +1823,7 @@ class Service extends REST_Controller
                            // sleep(1);                              
                          }
 
-                    // foreach($user_details as $ukey => $uvalue) {
-                          
-                         //  $gcm_id   = $uvalue['gcm_id'];
-                           
-                            //if($uvalue['is_tracked'] == 0) {
-//                              continue;
-//                            }  
-                         
-                       //  if(!empty($user_id) && !empty($gcm_id)) {  
-                           // $gcm_data = array();
-//                            $gcm_data['members'] = $user;
-//                            $gcm_data['default_id'] = (       isset($userdata['default_id']))?$userdata['default_id']:$uvalue['default_id'];
-//                            $gcm_data['join_key']   = $uvalue['join_key'];
-//                            $gcm_data['time']       = strtotime(date('Y-m-d H:i:s'));
-//                            $gcm_data['type']       = $result['type'];
-//                            $gcm_data['is_view']    = $res['is_view'];
-//                            $gcm_data['description']= $grp_descript;
-//                            $gcm_data['location_type']=$grp_loctype;
-//                            $gcm_data['lat']        = $grp_lat;
-//                            $gcm_data['lon']        = $grp_lon;
-//                            $gcm_data['date_created']=$grp_datecreate;
-//                            $gcm_data['method']     = 'search_user';
-//                            $gcm_data['msg']        = '';
-                            //$this->gcm->send_notification(array($gcm_id),array("hmg" => $gcm_data));  
-                      //  }
-                   // }    
+                      
 
                 }
                 

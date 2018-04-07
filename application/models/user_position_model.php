@@ -50,6 +50,7 @@ class User_Position_Model extends CI_Model {
         $this->db->from("user_groups");
         $this->db->where("user_groups.group_id",$group['id']);
         $this->db->where('user_groups.blocked',0);  
+        $this->db->where('NOT EXISTS','(select * from removed_user_groups rug WHERE rug.user_id=user_groups.user_id AND user_groups.group_id=rug.removed_group_id)',false);
         $this->db->join('user_position','user_groups.user_id=user_position.user_id');
         $this->db->join('user','user.id=user_position.user_id');
        // $this->db->join('user_plan','user_plan.plan_id=user.plan_id');
