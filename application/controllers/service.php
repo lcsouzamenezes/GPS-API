@@ -2142,10 +2142,10 @@ class Service extends REST_Controller
         $user_id   = $this->get('user_id');
         
 
-        $ins_data = array();
-        $ins_data['user_id'] = $user_id;
-        $ins_data['removed_group_id'] = $group_id;
-        $this->group_model->insert($ins_data,"removed_user_groups");
+        $in_data = array();
+        $in_data['user_id']          = $user_id;
+        $in_data['removed_group_id'] = $group_id;
+        $this->group_model->insert($in_data,"removed_user_groups");
 
         $this->user_groups_model->delete(array('group_id' => $group_id, 'user_id' => $user_id));
         
