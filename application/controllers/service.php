@@ -1606,6 +1606,10 @@ class Service extends REST_Controller
         $type      = (empty($type))?$this->get('type'):$type;
         $is_location_enabled = $this->get('is_location_enabled');
         
+        if(empty($join_key)) {
+           return $this->response(array('status' => "error",'msg' => "Channel Id shouldn't be empty!",'error_code' => 110), 404); 
+        }
+
         $result    = $this->group_model->check_unique(array("join_key" => $join_key));
     
         $plan_data = get_plan_data($result['user_id']);
@@ -1614,6 +1618,8 @@ class Service extends REST_Controller
          //check if user has already joined or not
         $user_al  = $this->user_groups_model->check_unique(array("user_id" => $user_id, "group_id" => $result['id']));
         $uct      = count($user_al);
+
+
           
         if(empty($result)) {
            return $this->response(array('status' => "error",'msg' => "Group doesn't exists.", 'join_key' => $join_key, 'error_code' => 110), 404); 
@@ -1661,7 +1667,7 @@ class Service extends REST_Controller
                 $this->send_notification_group_owner_get($join_key,$user_id,'online',FALSE);
             }
         // echo $cnt; exit;
-            if(empty($cnt) && (int)$user_id) {
+            if(empty($cnt) && (int)$user_id && !empty($join_key)) {
                 
                   $ins_data = array();
                   $ins_data['user_id']   = $user_id;
