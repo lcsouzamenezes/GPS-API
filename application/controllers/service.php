@@ -3412,6 +3412,12 @@ class Service extends REST_Controller
         
         $gr_dt = $this->group_model->check_unique(array("join_key" => $group_id));    
             
+
+        $ins_data = array();
+        $ins_data['user_id'] = $user_id;
+        $ins_data['removed_group_id'] = $gr_dt['id'];
+        $this->group_model->insert($ins_data,"removed_user_groups");
+           
         $this->user_groups_model->delete(array("user_id" => $user_id,"group_id" => $gr_dt['id']));
         
         $user  = $this->user_model->check_unique(array("id" => $user_id));
@@ -3485,8 +3491,9 @@ class Service extends REST_Controller
     
         $user_id   = $this->get('user_id');
         $join_key  = $this->get('join_key');
-      
+        
         $result    = $this->group_model->check_unique(array("join_key" => $join_key));
+
             
     $this->db->query("delete from user_groups where group_id='".$result['id']."' and user_id not in ($user_id)");
         
