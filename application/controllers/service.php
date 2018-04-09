@@ -3680,7 +3680,7 @@ class Service extends REST_Controller
         $this->group_model->update( $update_data, array("user_id" => $userID) );
 
         //update user table
-        $update_data = array('default_id' => $channelID);
+        $update_data = array('default_id' => $channelID, 'satiation_id' => $channelID);
         $this->user_model->update( 'user', $update_data, array("id" => $userID) );
 
         return $this->response(array('status' =>'success', 'msg' => 'Updated Successfully.'), 200);
