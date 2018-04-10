@@ -1606,6 +1606,10 @@ class Service extends REST_Controller
         $type      = (empty($type))?$this->get('type'):$type;
         $is_location_enabled = $this->get('is_location_enabled');
         
+        if(empty($join_key)) {
+           return $this->response(array('status' => "error",'msg' => "Channel Id shouldn't be empty!",'error_code' => 110), 404); 
+        }
+
         $result    = $this->group_model->check_unique(array("join_key" => $join_key));
     
         $plan_data = get_plan_data($result['user_id']);
@@ -1614,6 +1618,8 @@ class Service extends REST_Controller
          //check if user has already joined or not
         $user_al  = $this->user_groups_model->check_unique(array("user_id" => $user_id, "group_id" => $result['id']));
         $uct      = count($user_al);
+
+
           
         if(empty($result)) {
            return $this->response(array('status' => "error",'msg' => "Group doesn't exists.", 'join_key' => $join_key, 'error_code' => 110), 404); 
@@ -1661,7 +1667,7 @@ class Service extends REST_Controller
                 $this->send_notification_group_owner_get($join_key,$user_id,'online',FALSE);
             }
         // echo $cnt; exit;
-            if(empty($cnt) && (int)$user_id) {
+            if(empty($cnt) && (int)$user_id && !empty($join_key)) {
                 
                   $ins_data = array();
                   $ins_data['user_id']   = $user_id;
@@ -1817,32 +1823,7 @@ class Service extends REST_Controller
                            // sleep(1);                              
                          }
 
-                    // foreach($user_details as $ukey => $uvalue) {
-                          
-                         //  $gcm_id   = $uvalue['gcm_id'];
-                           
-                            //if($uvalue['is_tracked'] == 0) {
-//                              continue;
-//                            }  
-                         
-                       //  if(!empty($user_id) && !empty($gcm_id)) {  
-                           // $gcm_data = array();
-//                            $gcm_data['members'] = $user;
-//                            $gcm_data['default_id'] = (       isset($userdata['default_id']))?$userdata['default_id']:$uvalue['default_id'];
-//                            $gcm_data['join_key']   = $uvalue['join_key'];
-//                            $gcm_data['time']       = strtotime(date('Y-m-d H:i:s'));
-//                            $gcm_data['type']       = $result['type'];
-//                            $gcm_data['is_view']    = $res['is_view'];
-//                            $gcm_data['description']= $grp_descript;
-//                            $gcm_data['location_type']=$grp_loctype;
-//                            $gcm_data['lat']        = $grp_lat;
-//                            $gcm_data['lon']        = $grp_lon;
-//                            $gcm_data['date_created']=$grp_datecreate;
-//                            $gcm_data['method']     = 'search_user';
-//                            $gcm_data['msg']        = '';
-                            //$this->gcm->send_notification(array($gcm_id),array("hmg" => $gcm_data));  
-                      //  }
-                   // }    
+                      
 
                 }
                 
@@ -2135,6 +2116,13 @@ class Service extends REST_Controller
         $group_id  = $this->get('group_id');
         $user_id   = $this->get('user_id');
         
+
+      //  $in_data = array();
+      //  $in_data['user_id']          = $user_id;
+      //  $in_data['removed_group_id'] = $group_id;
+        //$this->group_model->insert($in_data,"removed_user_groups");
+        $this->db->query("INSERT INTO removed_user_groups SET user_id='$user_id',removed_group_id='$group_id'");
+
         $this->user_groups_model->delete(array('group_id' => $group_id, 'user_id' => $user_id));
         
         //check if member active group exist or not
@@ -3407,7 +3395,7 @@ class Service extends REST_Controller
         $group_id  = $this->get('group_id');    
         
         $gr_dt = $this->group_model->check_unique(array("join_key" => $group_id));    
-            
+           
         $this->user_groups_model->delete(array("user_id" => $user_id,"group_id" => $gr_dt['id']));
         
         $user  = $this->user_model->check_unique(array("id" => $user_id));
@@ -3481,8 +3469,9 @@ class Service extends REST_Controller
     
         $user_id   = $this->get('user_id');
         $join_key  = $this->get('join_key');
-      
+
         $result    = $this->group_model->check_unique(array("join_key" => $join_key));
+
             
     $this->db->query("delete from user_groups where group_id='".$result['id']."' and user_id not in ($user_id)");
         
@@ -3693,7 +3682,7 @@ class Service extends REST_Controller
         $this->group_model->update( $update_data, array("user_id" => $userID) );
 
         //update user table
-        $update_data = array('default_id' => $channelID);
+        $update_data = array('default_id' => $channelID, 'satiation_id' => $channelID);
         $this->user_model->update( 'user', $update_data, array("id" => $userID) );
 
         return $this->response(array('status' =>'success', 'msg' => 'Updated Successfully.'), 200);

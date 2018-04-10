@@ -1,6 +1,6 @@
 <?php
 
-safe_include("models/app_model.php");
+safe_include("models/App_model.php");
 class Group_Model  extends App_model {
     
     function __construct()
