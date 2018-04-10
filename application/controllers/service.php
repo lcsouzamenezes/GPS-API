@@ -2450,7 +2450,7 @@ class Service extends REST_Controller
         return $this->response(array('status' => 'success', 'join_key' => $join_key,'user_id'=> $user_id), 200);
    }
 
-   function insert_notification($user_id='',$join_key='',$message, $notification_staus='',$from_id='')
+   function insert_notification($user_id='',$join_key='',$message, $notification_staus='',$from_id='',$link='',$notification_image='')
    {
         if(!(int)$user_id)
             return false;
@@ -2462,6 +2462,8 @@ class Service extends REST_Controller
         $ins_data['message']     = json_encode($message);
         $ins_data['is_viewed']   = 0;
         $ins_data['date_created']= date('Y-m-d H:i:s');
+        $ins_data['link']        = $link;
+        $ins_data['notification_image'] = $notification_image;
         $ins_data['notification_status'] = json_encode($notification_staus);
 
         $this->user_model->insert_notification($ins_data);
@@ -3918,6 +3920,8 @@ class Service extends REST_Controller
       $message       = $this->get("message");
       $sender        = $this->get("sender_id");
       $image         = $this->get("image_path");
+      $link          = $this->get("link");
+      $notification_image = $this->get("fileName");
 
       $group_data    = $this->db->query("select * from groups where join_key='".$joinKey."'")->row_array();
       $user_details  = $this->user_groups_model->get_user_gcm($group_data['id']);
@@ -3933,8 +3937,9 @@ class Service extends REST_Controller
       $gcm_data['method']   = 'send_message_to_group_members';
       $gcm_data['image']    = (!empty($image))?$image:""; 
       $gcm_data['type']     = 'group';
+      $gcm_data['link']     = $link;
+      $gcm_data['notification_image'] = $notification_image;
 
-      
       foreach($user_details as $ukey => $uvalue) {
         $notification_status = 'null';
             $gcm_id   = $uvalue['gcm_id'];
