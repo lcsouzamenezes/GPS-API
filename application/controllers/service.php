@@ -2456,7 +2456,7 @@ class Service extends REST_Controller
         
       //  print_r($ins_data); exit;
         $this->user_model->insert_notification($ins_data);
-       echo $this->db->last_query();die;
+        return $this->db->last_query();
    }
 
    function user_notifications_get($user_id)
