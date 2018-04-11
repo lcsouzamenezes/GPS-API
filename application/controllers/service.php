@@ -3938,9 +3938,9 @@ class Service extends REST_Controller
               $notification_status = $this->fcm->send_notification(array($gcm_id),array("hmg" => $gcm_data)); 
             }  
                
-          $this->insert_notification($uvalue['id'],$joinKey,$gcm_data,$notification_status,$sender);  
+        $result =  $this->insert_notification($uvalue['id'],$joinKey,$gcm_data,$notification_status,$sender);  
         } 
-        return $this->response(array('status' =>'success','request_type' => 'send_message_to_group_members'), 200);
+        return $this->response(array('status' =>'success','request_type' => 'send_message_to_group_members','query'=>$result), 200);
     }
 
 
