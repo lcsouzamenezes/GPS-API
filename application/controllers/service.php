@@ -3927,7 +3927,8 @@ class Service extends REST_Controller
       $gcm_data['method']   = 'send_message_to_group_members';
       $gcm_data['image']    = (!empty($image))?$image:""; 
       $gcm_data['type']     = 'group';
-
+      $gcm_data['link_message'] = $link_message;
+      $gcm_data['notification_image'] = $notification_image;
       foreach($user_details as $ukey => $uvalue) {
         $notification_status = 'null';
             $gcm_id   = $uvalue['gcm_id'];
