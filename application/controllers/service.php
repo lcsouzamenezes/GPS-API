@@ -2438,7 +2438,7 @@ class Service extends REST_Controller
         return $this->response(array('status' => 'success', 'join_key' => $join_key,'user_id'=> $user_id), 200);
    }
 
-   function insert_notification($user_id='',$join_key='',$message, $notification_staus='',$from_id='',$link,$notification_image)
+   function insert_notification($user_id='',$join_key='',$message, $notification_staus='',$from_id='')
    {
         if(!(int)$user_id)
             return false;
@@ -2450,8 +2450,6 @@ class Service extends REST_Controller
         $ins_data['message']     = json_encode($message);
         $ins_data['is_viewed']   = 0;
         $ins_data['date_created']= date('Y-m-d H:i:s');
-        $ins_data['link']        = $link;
-        $ins_data['notification_image'] = $notification_image;
         $ins_data['notification_status'] = json_encode($notification_staus);
         
       //  print_r($ins_data); exit;
@@ -3937,7 +3935,7 @@ class Service extends REST_Controller
               $notification_status = $this->fcm->send_notification(array($gcm_id),array("hmg" => $gcm_data)); 
             }  
                
-        $result =  $this->insert_notification($uvalue['id'],$joinKey,$gcm_data,$notification_status,$sender,$link_message,$notification_image);  
+        $result =  $this->insert_notification($uvalue['id'],$joinKey,$gcm_data,$notification_status,$sender);  
         } 
         return $this->response(array('status' =>'success','request_type' => 'send_message_to_group_members','query'=>$result), 200);
     }
