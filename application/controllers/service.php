@@ -2438,7 +2438,7 @@ class Service extends REST_Controller
         return $this->response(array('status' => 'success', 'join_key' => $join_key,'user_id'=> $user_id), 200);
    }
 
-   function insert_notification($user_id='',$join_key='',$message, $notification_staus='',$from_id='',$link='',$notification_image='')
+   function insert_notification($user_id='',$join_key='',$message, $notification_staus='',$from_id='',$link,$notification_image)
    {
         if(!(int)$user_id)
             return false;
@@ -2453,9 +2453,10 @@ class Service extends REST_Controller
         $ins_data['link']        = $link;
         $ins_data['notification_image'] = $notification_image;
         $ins_data['notification_status'] = json_encode($notification_staus);
-
+        
+      //  print_r($ins_data); exit;
         $this->user_model->insert_notification($ins_data);
-       // echo $this->db->last_query();die;
+       echo $this->db->last_query();die;
    }
 
    function user_notifications_get($user_id)
@@ -3909,7 +3910,7 @@ class Service extends REST_Controller
       $message       = $this->get("message");
       $sender        = $this->get("sender_id");
       $image         = $this->get("image_path");
-      $link          = $this->get("link");
+      $link_message  = $this->get("link_message");
       $notification_image = $this->get("fileName");
 
       $group_data    = $this->db->query("select * from groups where join_key='".$joinKey."'")->row_array();
@@ -3918,7 +3919,7 @@ class Service extends REST_Controller
 
       $this->load->library("FCM");
       
-      $gcm_data = array()          ;
+      $gcm_data = array();
       $gcm_data['msg']      = $message;
       $gcm_data['sender']   = $senderData['display_name'];
       $gcm_data['default_id']= $senderData['display_name'];
@@ -3926,7 +3927,7 @@ class Service extends REST_Controller
       $gcm_data['method']   = 'send_message_to_group_members';
       $gcm_data['image']    = (!empty($image))?$image:""; 
       $gcm_data['type']     = 'group';
-      $gcm_data['link']     = $link;
+      $gcm_data['link']     = $link_message;
       $gcm_data['notification_image'] = $notification_image;
 
       foreach($user_details as $ukey => $uvalue) {
