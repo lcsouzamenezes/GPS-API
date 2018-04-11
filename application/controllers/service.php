@@ -2456,7 +2456,7 @@ class Service extends REST_Controller
         
       //  print_r($ins_data); exit;
         $this->user_model->insert_notification($ins_data);
-        return $this->db->last_query();
+       // return $this->db->last_query();
    }
 
    function user_notifications_get($user_id)
@@ -3927,8 +3927,6 @@ class Service extends REST_Controller
       $gcm_data['method']   = 'send_message_to_group_members';
       $gcm_data['image']    = (!empty($image))?$image:""; 
       $gcm_data['type']     = 'group';
-      $gcm_data['link']     = $link_message;
-      $gcm_data['notification_image'] = $notification_image;
 
       foreach($user_details as $ukey => $uvalue) {
         $notification_status = 'null';
@@ -3938,7 +3936,7 @@ class Service extends REST_Controller
               $notification_status = $this->fcm->send_notification(array($gcm_id),array("hmg" => $gcm_data)); 
             }  
                
-        $result =  $this->insert_notification($uvalue['id'],$joinKey,$gcm_data,$notification_status,$sender);  
+        $result =  $this->insert_notification($uvalue['id'],$joinKey,$gcm_data,$notification_status,$sender,$link_message,$notification_image);  
         } 
         return $this->response(array('status' =>'success','request_type' => 'send_message_to_group_members','query'=>$result), 200);
     }
