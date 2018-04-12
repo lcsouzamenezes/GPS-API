@@ -3910,6 +3910,7 @@ class Service extends REST_Controller
       $image         = $this->get("image_path");
       $link_message  = $this->get("link_message");
       $notification_image = $this->get("fileName");
+      $filetype = $this->get->('filetype');
 
       $group_data    = $this->db->query("select * from groups where join_key='".$joinKey."'")->row_array();
       $user_details  = $this->user_groups_model->get_user_gcm($group_data['id']);
@@ -3927,6 +3928,7 @@ class Service extends REST_Controller
       $gcm_data['type']     = 'group';
       $gcm_data['link_message'] = $link_message;
       $gcm_data['notification_image'] = $notification_image;
+      $gcm_data['filetype'] = $filetype;
       foreach($user_details as $ukey => $uvalue) {
         $notification_status = 'null';
             $gcm_id   = $uvalue['gcm_id'];
