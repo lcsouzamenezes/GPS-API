@@ -4062,13 +4062,13 @@ class Service extends REST_Controller
       $group_id = $this->get("group_id");
 
       $group    = $this->groups_model->check_unique(array("join_key" => $group_id));
+      $result   = $this->user_groups_model->check_unique(array("group_id" => $group['id'], "user_id" => $user_id));
 
-      $result = $this->user_groups_model->check_unique(array("group_id" => $result['id'], "user_id" => $user_id));
-
-         if(count($result) == 0){
+        $affected_rows = "";
+        if(count($result) == 0){
               $ins_data = array();
               $ins_data['user_id']        = $user_id;
-              $ins_data['group_id']       = $result['id']; 
+              $ins_data['group_id']       = $group['id']; 
               $ins_data['status']         = 1; 
               $ins_data['is_joined']      = 1; 
               $ins_data['is_view']        = 1;
@@ -4076,6 +4076,8 @@ class Service extends REST_Controller
               $affected_rows              = $this->user_groups_model->insert($ins_data);
          }
 
+        return $this->response(array('status' =>'success'), 200);
+       
 
     }
    
