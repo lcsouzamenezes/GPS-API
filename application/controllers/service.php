@@ -4061,7 +4061,7 @@ class Service extends REST_Controller
     {
 
       $user_id  = $this->get("user_id");
-      $group_id = $this->get("group_id");
+      $group_id = $this->get("channel_id");
 
       $group    = $this->groups_model->check_unique(array("join_key" => $group_id));
       $result   = $this->user_groups_model->check_unique(array("group_id" => $group['id'], "user_id" => $user_id));
