@@ -4060,7 +4060,7 @@ class Service extends REST_Controller
     function member_join_to_group_get()
     {
 
-      $user_id  = $this->get("user_id");
+      echo $user_id  = $this->get("user_id"); exit;
       $group_id = $this->get("group_id");
 
       $group    = $this->groups_model->check_unique(array("join_key" => $group_id));
