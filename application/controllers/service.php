@@ -546,8 +546,8 @@ class Service extends REST_Controller
                    $this->load->library('email',$config);
                     
                     // $default      = md5($result['default_id']);
-                     //$user_id      = base64_encode($result['id']);
-                     $user_id = $result['id'];
+                     $user_id      = base64_encode($result['id']);
+                     //$user_id = $result['id'];
                      $current_time = strtotime(date("Y-m-d H:i:s"));
                      $this->data['fpwd_url'] = site_url()."user/changepassword?id=$user_id&expire_time=$current_time";
                      $this->data['username'] = $result['default_id'];
