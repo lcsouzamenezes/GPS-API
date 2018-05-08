@@ -26,7 +26,8 @@ class User extends CI_Controller {
             
 		    $password  = (isset($_POST['new_password']) && !empty($_POST['new_password']))?$_POST['new_password']:"";
             $cpassword = (isset($_POST['confirm_password']) && !empty($_POST['confirm_password']))?$_POST['confirm_password']:"";
-            $user_id   = (isset($_GET['id']) && !empty($_GET['id']))?base64_decode($_GET['id']):"";
+            //$user_id   = (isset($_GET['id']) && !empty($_GET['id']))?base64_decode($_GET['id']):"";
+            $user_id   = (isset($_GET['id']) && !empty($_GET['id']))?$_GET['id']:"";
             $password  = md5($password);
         
             if(!empty($user_id)) {
