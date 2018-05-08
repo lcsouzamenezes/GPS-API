@@ -22,7 +22,7 @@ class User extends CI_Controller {
         $this->form_validation->set_rules('confirm_password', 'Password Confirmation', 'required');
         
         if ($this->form_validation->run() == true){
-            echo "success"; exit;
+           // echo "success"; exit;
             
 		    $password  = (isset($_POST['new_password']) && !empty($_POST['new_password']))?$_POST['new_password']:"";
             $cpassword = (isset($_POST['confirm_password']) && !empty($_POST['confirm_password']))?$_POST['confirm_password']:"";
@@ -33,6 +33,7 @@ class User extends CI_Controller {
                
                 $ins_data = array();
                 $ins_data['password'] = $password;
+                echo $user_id;
                 print_r($ins_data); exit;
                 $this->user_model->update("user",$ins_data,array("id" => $user_id));
             }
