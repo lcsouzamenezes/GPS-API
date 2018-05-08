@@ -34,8 +34,8 @@ class User extends CI_Controller {
                
                 $ins_data = array();
                 $ins_data['password'] = $password;
-                echo $user_id;
-                print_r($ins_data); exit;
+                // echo $user_id;
+                // print_r($ins_data); exit;
                 $this->user_model->update("user",$ins_data,array("id" => $user_id));
             }
             
