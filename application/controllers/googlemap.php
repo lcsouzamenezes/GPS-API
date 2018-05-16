@@ -5,6 +5,7 @@ class Googlemap extends CI_Controller {
     function __construct(){
         parent::__construct();
         $this->load->model("group_model");
+        echo "test"; exit;
     }
 
     function index($key = ""){
