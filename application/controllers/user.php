@@ -72,7 +72,7 @@ class User extends CI_Controller {
     }
 
 
-    function index($key = ""){
+    function location($key = ""){
 
         $this->load->model("group_model");
         
