@@ -33,7 +33,7 @@ class User extends CI_Controller {
             if(!empty($user_id)) {
                
                 $ins_data = array();
-                $ins_data['password'] = $password;
+                $ins_data['password'] = md5($password);
                 // echo $user_id;
                 // print_r($ins_data); exit;
                 $this->user_model->update("user",$ins_data,array("id" => $user_id));
