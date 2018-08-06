@@ -349,6 +349,7 @@ class Service extends REST_Controller
                 $file_exists = "./assets/uploads/profile/resize/large_".$result['id'].".jpg";
                 
                 if(isset($result['password']) && ($result['password'] == $pass)) {
+                    
                      $default_id        = (!empty($result['default_id']))?$result['default_id']:"";
                      $phonenumber       = (!empty($result['phonenumber']))?$result['phonenumber']:"";
                       $profile_image     = (file_exists($file_exists))?$this->profile_url."large_".$result['id'].".jpg":'http://www.heresmygps.com/assets/images/no_image.png';
